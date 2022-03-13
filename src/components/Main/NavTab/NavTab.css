@@ -16,6 +16,10 @@
   width: 96px;
   height: 36px;
   margin: 0 5px;
+  text-decoration: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav-tab__button_techs {

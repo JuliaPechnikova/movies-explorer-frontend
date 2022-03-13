@@ -1,6 +1,6 @@
 import './App.css';
-//import Footer from '../Footer.js';
-///import Header from '../Header.js';
+import Footer from '../Footer/Footer.js';
+import Header from '../Header/Header.js';
 import Login from '../Login/Login.js';
 import Main from '../Main/Main.js';
 import Movies from '../Movies/Movies.js';
@@ -18,22 +18,46 @@ function App() {
     <div className="App">
        <Routes>
           <Route path="/" element = {
-            <Main/>
+            <>
+              <Header/>
+              <Main/>
+              <Footer/>
+            </>
           }/>
           <Route path="/movies" element = {
-            <Movies/>
+            <>
+              <Header/>
+              <Movies/>
+              <Footer/>
+            </>
           } />
           <Route path="/saved-movies" element = {
-            <SavedMovies/>
+            <>
+              <Header/>
+              <SavedMovies/>
+              <Footer/>
+            </>
           } />
           <Route path="/profile" element = {
-            <Profile/>
+            <>
+              <Header/>
+              <Profile/>
+              <Footer/>
+            </>
           } />
           <Route path="/signup" element = {
-            <Register/>
+            <>
+              <Header/>
+              <Register/>
+              <Footer/>
+            </>
           } />
           <Route path="/signin" element = {
-            <Login/>
+            <>
+              <Header/>
+              <Login/>
+              <Footer/>
+            </>
           } />
         </Routes>
     </div>

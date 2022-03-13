@@ -3,7 +3,7 @@ import avatar from '../../../images/avatar.svg';
 
 function AboutMe() {
   return (
-    <section className="about-me">
+    <section id="aboutme" className="about-me">
       <h2 className="about-me__header">Студент</h2>
       <div className="about-me__profile">
         <div className="about-me__info">
@@ -16,8 +16,8 @@ function AboutMe() {
             «СКБ Контур». После того, как прошёл курс по веб-разработке, 
             начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
           <nav className="about-me__links">
-            <span className="about-me__link">Facebook</span>
-            <span className="about-me__link">Github</span>
+            <a href="./" className="about-me__link">Facebook</a>
+            <a href="./" className="about-me__link">Github</a>
           </nav>
         </div>
         <img className="about-me__avatar" src={avatar} alt={avatar}/>
