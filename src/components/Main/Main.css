@@ -1,0 +1,28 @@
+.content {
+  max-width: 1140px;
+  margin: auto;
+}
+
+@media screen and (max-width: 1270px) {
+  .content {
+    max-width: 950px;
+  }
+}
+
+@media screen and (max-width: 1060px) {
+  .content {
+    max-width: 668px;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .content {
+    max-width: 450px;
+  }
+}
+
+@media screen and (max-width: 555px) {
+  .content {
+    max-width: 284px;
+  }
+}

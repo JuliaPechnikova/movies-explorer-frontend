@@ -7,15 +7,14 @@ import Movies from '../Movies/Movies.js';
 import Profile from '../Profile/Profile.js';
 import Register from '../Register/Register.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
-//import Navigation from './Navigation.js';
-
-
+import NotFound from '../NotFound/NotFound';
 import React from 'react';
-import { Route, Routes, Navigate, useNavigate} from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
+
   return (
-    <div className="App">
+    <div className="app">
        <Routes>
           <Route path="/" element = {
             <>
@@ -42,22 +41,16 @@ function App() {
             <>
               <Header/>
               <Profile/>
-              <Footer/>
             </>
           } />
           <Route path="/signup" element = {
-            <>
-              <Header/>
-              <Register/>
-              <Footer/>
-            </>
+            <Register/>
           } />
           <Route path="/signin" element = {
-            <>
-              <Header/>
-              <Login/>
-              <Footer/>
-            </>
+            <Login/>
+          } />
+          <Route exact path="*" element = {
+            <NotFound/>
           } />
         </Routes>
     </div>

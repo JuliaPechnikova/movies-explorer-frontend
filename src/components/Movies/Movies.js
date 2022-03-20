@@ -1,13 +1,12 @@
-import SearchForm from './SearchForm/SearchForm.js';
-import MoviesCardList from './MoviesCardList/MoviesCardList.js';
-import Preloader from './Preloader/Preloader.js';
+import SearchForm from '../SearchForm/SearchForm.js';
+import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
+import {temp_all_movies} from '../../utils/const.js';
 
 function Movies() {
   return (
     <main className="content">
       <SearchForm/>
-      <MoviesCardList/>
-      <Preloader/>
+      <MoviesCardList cards={temp_all_movies} savedButton={false}/>
     </main>
   ); 
 }

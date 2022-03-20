@@ -1,0 +1,81 @@
+.profile {
+  margin: auto;
+  max-width: 410px;
+  padding: 74px 0 70px 0;
+}
+
+.profile__hello {
+  margin: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  padding-bottom: 123px;
+  text-align: center;
+}
+
+.profile__container {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #424242;;
+}
+
+.profile__container:last-of-type {
+  padding: 17px 0 0 0;
+  border-bottom: 0;
+}
+
+.profile__header {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.profile__input {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 13px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: white;
+  text-align: right;
+  outline: none;
+}
+
+.profile__button {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  display: block;
+  margin: auto;
+  color: white;
+  background: 0;
+  padding: 220px 0 16px 0;
+  border: 0;
+}
+
+.profile__button:hover {
+  opacity: 65%;
+  transition: 0.25s;
+}
+
+.profile__exit {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: #EE3465;
+  text-decoration: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.profile__exit:hover {
+  opacity: 65%;
+  transition: 0.25s;
+}

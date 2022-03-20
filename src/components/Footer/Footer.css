@@ -4,6 +4,31 @@
   margin: auto;
 }
 
+@media screen and (max-width: 1270px) {
+  .footer {
+    max-width: 950px;
+  }
+}
+
+@media screen and (max-width: 1060px) {
+  .footer {
+    max-width: 668px;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .footer {
+    max-width: 450px;
+  }
+}
+
+@media screen and (max-width: 555px) {
+  .footer {
+    max-width: 284px;
+  }
+}
+
+
 .footer__project-rights {
   font-style: normal;
   font-weight: 400;
@@ -42,5 +67,9 @@
   padding-right: 0;
 }
 
+.footer__link:hover {
+  opacity: 65%;
+  transition: 0.25s;
+}
 
 

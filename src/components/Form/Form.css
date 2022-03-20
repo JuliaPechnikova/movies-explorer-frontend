@@ -1,0 +1,115 @@
+.form {
+  max-width: 396px;
+  margin: auto;
+  padding: 70px 0;
+}
+
+.form__hello {
+  padding: 40px 0 16px 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 0;
+}
+
+.form__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 380px;
+}
+
+.form__header {
+  display: block;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #8B8B8B;
+  padding-top: 24px;
+}
+
+.form__input {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  padding: 5px 0 10px 0;
+  background: 0;
+  border: 0;
+  border-bottom: 1px solid #424242;
+  color: white;
+  outline: none;
+  width: 396px;
+}
+
+
+.form__input:focus {
+  border-bottom: 1px solid rgba(66, 133, 244, 1);
+}
+
+.form__error {
+  color: #EE3465;
+  padding-top: 6px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.form__error {
+  display: block;
+}
+
+.form__error-input {
+  color: #EE3465;
+}
+
+.form__button {
+  padding: 0;
+  border: 0;
+  background: #4285F4;
+  color: white;
+  width: 396px;
+  height: 45px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.form__button:hover {
+  background: rgba(66, 133, 244, 0.65);
+  transition: 0.25s;
+}
+
+.form__text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #8B8B8B;
+  margin: 0;
+}
+
+.form__signin {
+  text-decoration: none;
+  color: #4285F4;
+  padding-left: 6px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.form__signin:hover {
+  opacity: 65%;
+  transition: 0.25s;
+}
+
+.form__bottom {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}

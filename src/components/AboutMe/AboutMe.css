@@ -1,0 +1,118 @@
+.about-me__header {
+  border-bottom: solid 1px #DADADA;
+  padding: 100px 0 23px 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+
+@media screen and (max-width: 768px) {
+  .about-me__header  {
+    padding: 80px 0 22px 0;
+  }
+}
+
+.about-me__info {
+  max-width: 600px;
+}
+
+@media screen and (max-width: 768px) {
+  .about-me__info  {
+    max-width: 364px;
+  }
+}
+
+.about-me__profile {
+  display: flex;
+  padding-top: 66px;
+  justify-content: space-between;
+}
+
+.about-me__name {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+  margin: 0;
+  padding-bottom: 18px;
+}
+
+@media screen and (max-width: 768px) {
+  .about-me__name  {
+    font-size: 40px;
+    line-height: 40px;
+    padding-bottom: 16px;
+  }
+}
+
+.about-me__about {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  margin: 0;
+  padding-bottom: 26px;
+}
+
+@media screen and (max-width: 768px) {
+  .about-me__about  {
+    font-size: 12px;
+    line-height: 18px;
+    padding-bottom: 20px;
+  }
+}
+
+.about-me__description {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  margin: 0;
+  padding-bottom: 99px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .about-me__description {
+    font-size: 12px;
+    line-height: 18px;
+    padding-bottom: 87px;
+  }
+}
+
+.about-me__avatar {
+  width: 270px;
+  height: 327px;
+  background: white;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+
+@media screen and (max-width: 768px) {
+  .about-me__avatar {
+    width: 255px;
+    height: 307px;
+  }
+}
+
+.about-me__link {
+  padding-right: 20px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: white;
+  text-decoration: 0;
+}
+
+
+.about-me__link:hover {
+  opacity: 65%;
+  transition: 0.25s;
+}
