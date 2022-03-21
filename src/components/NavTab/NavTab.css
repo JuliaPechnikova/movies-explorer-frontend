@@ -1,6 +1,23 @@
 .nav-tab {
-  display: flex;
+  display: grid;
   justify-content: center;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(1, auto);
+  gap: 0 10px;
+}
+
+.nav-tab__content_tech  {
+  grid-template-columns: repeat(7, auto);
+  grid-template-rows: repeat(1, auto);
+}
+
+@media screen and (max-width: 320px) {
+  .nav-tab__content_tech  {
+    gap: 10px 10px;
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(1, auto);
+    padding-bottom: 70px;
+  }
 }
 
 .nav-tab__button {
@@ -14,11 +31,19 @@
   color: #FFFFFF;
   width: 96px;
   height: 36px;
-  margin: 0 5px;
   text-decoration: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media screen and (max-width: 320px) {
+  .nav-tab__button  {
+    width: 82px;
+    height: 26px;
+    font-size: 10px;
+    border-radius: 6px;
+  }
 }
 
 .nav-tab__button_techs {
@@ -33,6 +58,15 @@
     height: 57px;
   }
 }
+
+@media screen and (max-width: 320px) {
+  .nav-tab__button_techs  {
+    width: 84px;
+    height: 57px;
+    line-height: 15px;
+  }
+}
+
 
 .nav-tab__button_promo:hover {
   background: rgba(48, 48, 48, 0.65);

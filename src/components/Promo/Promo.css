@@ -21,7 +21,10 @@
 
 @media screen and (max-width: 555px) {
   .promo {
-    margin: 20px auto 0 auto;
+    margin: 14px -4px 0 -4px;
+    padding: 220px 0 17px 0;
+    min-height: 349px;
+    max-width: 292px;
   }
 }
 
@@ -42,7 +45,9 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 320px) {
   .promo__title {
+    font-size: 29px;
+    line-height: 37px;
   }
 }
