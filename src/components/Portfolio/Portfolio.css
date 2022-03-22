@@ -16,6 +16,13 @@
   }
 }
 
+@media screen and (max-width: 320px) {
+  .portfolio__title {
+    margin: 70px 0 0 0;
+    padding-bottom: 20px;
+  }
+}
+
 .portfolio__list {
   list-style: none;
   margin: 0;
@@ -51,6 +58,13 @@
   }
 }
 
+@media screen and (max-width: 320px) {
+  .portfolio__list-text {
+    font-size: 18px;
+    line-height: 28px;
+  }
+}
+
 .portfolio__list-project:last-of-type {
   border-bottom: none;
   padding-bottom: 125px;
@@ -62,6 +76,13 @@
   }
 }
 
+
+@media screen and (max-width: 320px) {
+  .portfolio__list-project:last-of-type {
+    padding-bottom: 70px;
+  }
+}
+
 .portfolio__list-link {
   font-style: normal;
   font-weight: 400;
@@ -70,4 +91,17 @@
   letter-spacing: -0.04em;
   vertical-align: bottom;
   margin: 0;
+}
+
+@media screen and (max-width: 320px) {
+  .portfolio__list-link {
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .portfolio__list-link {
+    font-size: 18px;
+    line-height: 28px;
+  }
 }
