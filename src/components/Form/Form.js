@@ -10,10 +10,10 @@ function Form(props) {
       <form className="form__form">
         <div>
           {props.children}
-          <label for="email" className="form__header">E-mail</label>
-          <input type="email" value="pochta@yandex.ru" className="form__input" id="email" name="email" required/>
-          <label for="password" className="form__header">Пароль</label>
-          <input type="password" value="••••••••••••••" className="form__input form__error-input" id="password" name="email" required/>
+          <label htmlFor="email" className="form__header">E-mail</label>
+          <input type="email" defaultValue="pochta@yandex.ru" className="form__input" id="email" name="email" required/>
+          <label htmlFor="password" className="form__header">Пароль</label>
+          <input type="password" defaultValue="••••••••••••••" className="form__input form__error-input" id="password" name="email" required/>
           <span className="form__error">Что-то пошло не так...</span>
         </div>
         <button type="submit" className="form__button">{props.button}</button>
