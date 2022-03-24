@@ -139,6 +139,8 @@
 
 .header__menu {
   display: none;
+  background: none;
+  border: 0;
 }
 
 
