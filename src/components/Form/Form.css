@@ -4,6 +4,20 @@
   padding: 70px 0;
 }
 
+@media screen and (max-width: 490px) {
+  .form__logo {
+    display: block;
+    margin: auto;
+  }  
+}
+
+@media screen and (max-width: 490px) {
+  .form {
+    max-width: 260px;
+    padding: 50 0 80 0;
+  }
+}
+
 .form__hello {
   padding: 40px 0 16px 0;
   font-style: normal;
@@ -13,11 +27,24 @@
   margin: 0;
 }
 
+@media screen and (max-width: 490px) {
+  .form__hello {
+    text-align: center;
+    padding: 50px 0 56px 0;
+  }
+}
+
 .form__form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 380px;
+}
+
+@media screen and (max-width: 490px) {
+  .form__form {
+    min-height: 492px;
+  }
 }
 
 .form__header {
@@ -43,6 +70,14 @@
   outline: none;
   width: 396px;
 }
+
+
+@media screen and (max-width: 490px) {
+  .form__input {
+    width: 260px;
+  }
+}
+
 
 
 .form__input:focus {
@@ -79,6 +114,12 @@
   line-height: 17px;
 }
 
+@media screen and (max-width: 490px) {
+  .form__button {
+    width: 260px;
+  }
+}
+
 .form__button:hover {
   background: rgba(66, 133, 244, 0.65);
   transition: 0.25s;
@@ -93,6 +134,13 @@
   margin: 0;
 }
 
+@media screen and (max-width: 490px) {
+  .form__text {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
 .form__signin {
   text-decoration: none;
   color: #4285F4;
@@ -101,6 +149,13 @@
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;
+}
+
+@media screen and (max-width: 490px) {
+  .form__signin {
+    font-size: 12px;
+    line-height: 15px;
+  }
 }
 
 .form__signin:hover {
@@ -112,4 +167,10 @@
   display: flex;
   justify-content: center;
   padding: 16px;
+}
+
+@media screen and (max-width: 490px) {
+  .form__bottom {
+    padding: 14px 0 30px 0;
+  }
 }

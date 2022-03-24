@@ -4,6 +4,13 @@
   padding: 74px 0 70px 0;
 }
 
+@media screen and (max-width: 555px) {
+  .profile {
+    max-width: 260px;
+    padding: 70px 0 40px 0;
+  }
+}
+
 .profile__hello {
   margin: 0;
   font-style: normal;
@@ -13,6 +20,13 @@
   padding-bottom: 123px;
   text-align: center;
 }
+
+@media screen and (max-width: 555px) {
+  .profile__hello {
+    padding-bottom: 80px;
+  }
+}
+
 
 .profile__container {
   display: flex;
@@ -57,6 +71,12 @@
   background: 0;
   padding: 220px 0 16px 0;
   border: 0;
+}
+
+@media screen and (max-width: 555px) {
+  .profile__button {
+    padding: 379px 0 16px 0;
+  }
 }
 
 .profile__button:hover {

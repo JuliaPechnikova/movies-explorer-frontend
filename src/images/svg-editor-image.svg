@@ -1,0 +1,32 @@
+<svg width="38" height="38" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="12" width="37" y="10.5" x="3.5" id="filter0_d_11339_3932">
+   <feGaussianBlur stdDeviation="2"/>
+  </filter>
+  <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="12" width="37" y="20.5" x="3.5" id="filter1_d_11339_3932">
+   <feGaussianBlur stdDeviation="2"/>
+  </filter>
+  <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="12" width="37" y="30.5" x="3.5" id="filter2_d_11339_3932">
+   <feGaussianBlur stdDeviation="2"/>
+  </filter>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="40" width="40" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1" filter="url(#filter0_d_11339_3932)">
+   <path id="svg_2" fill="white" d="m33.481481,10.648148l-28,0l0,-3l28,0l0,3z" clip-rule="evenodd" fill-rule="evenodd"/>
+   <path id="svg_3" stroke="black" d="m33.481481,10.648148l-28,0l0,-3l28,0l0,3z" clip-rule="evenodd" fill-rule="evenodd"/>
+  </g>
+  <g id="svg_4" filter="url(#filter1_d_11339_3932)">
+   <path id="svg_5" fill="white" d="m33.481481,20.648148l-28,0l0,-3l28,0l0,3z" clip-rule="evenodd" fill-rule="evenodd"/>
+   <path id="svg_6" stroke="black" d="m33.481481,20.648148l-28,0l0,-3l28,0l0,3z" clip-rule="evenodd" fill-rule="evenodd"/>
+  </g>
+  <g id="svg_7" filter="url(#filter2_d_11339_3932)">
+   <path id="svg_8" fill="white" d="m33.481481,30.648148l-28,0l0,-3l28,0l0,3z" clip-rule="evenodd" fill-rule="evenodd"/>
+   <path id="svg_9" stroke="black" d="m33.481481,30.648148l-28,0l0,-3l28,0l0,3z" clip-rule="evenodd" fill-rule="evenodd"/>
+  </g>
+ </g>
+</svg>

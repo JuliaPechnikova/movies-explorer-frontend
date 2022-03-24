@@ -98,7 +98,7 @@
   padding-right: 20px;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 555px) {
   .footer__link {
     padding: 0 0 12px 0;
     text-align: center;

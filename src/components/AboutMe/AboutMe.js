@@ -3,7 +3,7 @@ import avatar from '../../images/avatar.svg';
 
 function AboutMe() {
   return (
-    <section id="aboutme" className="about-me">
+    <section id="aboutme" className="about-me main__content">
       <h2 className="about-me__header">Студент</h2>
       <div className="about-me__profile">
         <div className="about-me__info">

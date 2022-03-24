@@ -11,7 +11,7 @@
   grid-template-rows: repeat(1, auto);
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 765px) {
   .nav-tab__content_tech  {
     gap: 10px 10px;
     grid-template-columns: repeat(2, auto);
@@ -37,7 +37,7 @@
   align-items: center;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 325px) {
   .nav-tab__button  {
     width: 82px;
     height: 26px;

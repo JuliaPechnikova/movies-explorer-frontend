@@ -4,7 +4,7 @@ import {temp_all_movies} from '../../utils/const.js';
 
 function Movies() {
   return (
-    <main className="content">
+    <main className="content content__movies_width">
       <SearchForm/>
       <MoviesCardList cards={temp_all_movies} savedButton={false}/>
     </main>

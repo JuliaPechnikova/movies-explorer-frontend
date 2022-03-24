@@ -45,3 +45,34 @@
   height: 203px;
   object-fit: cover;
 }
+
+
+@media screen and (max-width: 1270px) {
+  .movies-card__image {
+    width: 100%;
+    height: fit-content;
+  }
+}
+
+
+@media screen and (max-width: 1060px) {
+  .movies-card__image {
+    width: 339px;
+    height: 190px;
+  }
+}
+
+
+@media screen and (max-width: 765px) {
+  .movies-card__image {
+    width: 100%;
+    height: fit-content;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .movies-card__image {
+    width: 292px;
+    height: 168px;
+  }
+}

@@ -2,6 +2,7 @@ import './Header.css';
 import logo from '../../images/logo.svg';
 import { ReactSVG } from 'react-svg';
 import { Link, useLocation } from 'react-router-dom';
+import menu from '../../images/header-menu.svg'
 //import Navigation from './Navigation.js';
 
 function Header() {
@@ -24,6 +25,7 @@ function Header() {
             <Link className="header__saved-films" to="/saved-movies">Сохраненные фильмы</Link>
           </div>
           <Link className="header__profile" to="/profile">Аккаунт</Link>
+          <img className="header__menu" src={menu} alt="Меню"/>
         </nav> 
       }
     </header>
