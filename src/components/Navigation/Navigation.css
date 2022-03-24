@@ -36,9 +36,15 @@
   background: none;
   border: 0;
   padding: 22px 22px 0 0;
-  display: flex;
-  justify-content: flex-end;
+  display: block;
+  margin-left: auto;
   z-index: 3;
+  width: fit-content;
+}
+
+.navigation__cross:hover {
+  opacity: 65%;
+  transition: 0.25s;
 }
 
 .navigation__link {
@@ -51,6 +57,11 @@
   line-height: 22px;
   text-decoration: none;
   z-index: 3;
+}
+
+.navigation__link:hover {
+  opacity: 65%;
+  transition: 0.25s;
 }
 
 .navigation__link_active {

@@ -149,3 +149,8 @@
     display: block;
   }
 }
+
+.header__menu:hover {
+  opacity: 65%;
+  transition: 0.25s;
+}
