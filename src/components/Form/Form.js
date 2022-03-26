@@ -5,7 +5,7 @@ import './Form.css';
 function Form(props) {
   return (
     <main className="form">
-      <img src={logo} alt="Logo" className="form__logo"/>
+      <Link to="/"><img src={logo} alt="Logo" className="form__logo"/></Link>
       <h1 className="form__hello">{props.hello}</h1>
       <form className="form__form">
         <div>

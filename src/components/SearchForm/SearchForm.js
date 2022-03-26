@@ -1,15 +1,20 @@
 import './SearchForm.css';
-import searchicon from '../../images/search-icon.svg';
 import findicon from '../../images/search-find.svg';
-import smalltumb from '../../images/searchform-smalltumb.svg';
+import React from 'react';
 
 function SearchForm() {
+
+  const [isChecked, setChecked] = React.useState("checked");
+
+  const handleChecked = () => {
+    isChecked === "checked" ? setChecked("") : setChecked("checked");
+  }
   return (
     <section className="search-form">
       <form className="search-form__form">
         <div className="search-form__container">
-          <img src={searchicon} alt="Search" className="search-form__search"/>
-          <input type="search" placeholder="Фильм" className="search-form__input"/>
+          <label htmlFor="search" className="search-form__search"></label>
+          <input type="search" id="search" placeholder="Фильм" className="search-form__input"/>
         </div>
         <div className="search-form__container">
           <div className="search-form__container">
@@ -17,8 +22,11 @@ function SearchForm() {
             <span className="search-form__stroke"></span>
           </div>
           <div className="search-form__tumb-container">
-            <img src={smalltumb} alt="Tumbler" className="search-form__tumb"/>
-            <span className="search-form__tumb-description">Короткометражки</span>
+            <label class="search-form__tumb">
+              <input type="checkbox" id="tumb" class="search-form__tumb-inner" checked={isChecked} onClick={handleChecked}/>
+              <span class="search-form__tumb-slider"></span>
+            </label>
+            <label htmlFor="tumb" className="search-form__tumb-description">Короткометражки</label>
           </div>
         </div>
       </form>

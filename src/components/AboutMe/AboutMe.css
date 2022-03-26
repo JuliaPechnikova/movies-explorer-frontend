@@ -114,6 +114,12 @@
   padding-bottom: 99px;
 }
 
+@media screen and (max-width: 1060px) {
+  .about-me__description {
+    max-width: 380px;
+  }
+}
+
 
 @media screen and (max-width: 768px) {
   .about-me__description {
@@ -123,7 +129,7 @@
   }
 }
 
-@media screen and (max-width: 555px) {
+@media screen and (max-width: 765px) {
   .about-me__description {
     font-size: 11px;
     line-height: 16px;

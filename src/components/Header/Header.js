@@ -21,7 +21,7 @@ function Header() {
 
   return (
     <header className="header">
-      <ReactSVG className="header__logo" src={logo} alt="Logo"/>
+      <Link to="/"><ReactSVG className="header__logo" src={logo} alt="Logo"/></Link>
       { location.pathname === "/" &&
         <nav>
           <Link className="header__register" to="/signup">Регистрация</Link>

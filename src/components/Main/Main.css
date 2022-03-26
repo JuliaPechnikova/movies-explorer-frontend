@@ -32,6 +32,12 @@
   }
 }
 
+@media screen and (max-width: 1270px) {
+  .content__movies_width {
+    max-width: 950px;
+  }
+}
+
 @media screen and (max-width: 1060px) {
   .content__movies_width {
     max-width: 708px;

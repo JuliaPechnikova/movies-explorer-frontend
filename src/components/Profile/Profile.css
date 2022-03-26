@@ -71,6 +71,7 @@
   background: 0;
   padding: 220px 0 16px 0;
   border: 0;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 555px) {
