@@ -4,11 +4,7 @@ import React from 'react';
 
 function SearchForm() {
 
-  const [isChecked, setChecked] = React.useState("checked");
 
-  const handleChecked = () => {
-    isChecked === "checked" ? setChecked("") : setChecked("checked");
-  }
   return (
     <section className="search-form">
       <form className="search-form__form">
@@ -22,9 +18,9 @@ function SearchForm() {
             <span className="search-form__stroke"></span>
           </div>
           <div className="search-form__tumb-container">
-            <label class="search-form__tumb">
-              <input type="checkbox" id="tumb" class="search-form__tumb-inner" checked={isChecked} onClick={handleChecked}/>
-              <span class="search-form__tumb-slider"></span>
+            <label className="search-form__tumb">
+              <input type="checkbox" id="tumb" className="search-form__tumb-inner" defaultChecked/>
+              <span className="search-form__tumb-slider"></span>
             </label>
             <label htmlFor="tumb" className="search-form__tumb-description">Короткометражки</label>
           </div>

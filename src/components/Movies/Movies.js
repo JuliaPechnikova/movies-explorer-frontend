@@ -2,11 +2,11 @@ import SearchForm from '../SearchForm/SearchForm.js';
 import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
 import {temp_all_movies} from '../../utils/const.js';
 
-function Movies() {
+function Movies(props) {
   return (
     <main className="content content__movies_width">
       <SearchForm/>
-      <MoviesCardList cards={temp_all_movies} savedButton={false}/>
+      <MoviesCardList cards={props.movies} savedButton={false}/>
     </main>
   ); 
 }

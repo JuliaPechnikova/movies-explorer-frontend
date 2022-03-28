@@ -10,8 +10,19 @@ import SavedMovies from '../SavedMovies/SavedMovies.js';
 import NotFound from '../NotFound/NotFound';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import moviesApi from '../../utils/MoviesApi';
 
 function App() {
+
+  const [movies, setMovies] = React.useState([]);
+
+  React.useEffect(() => {
+    moviesApi.getInitialMovies()
+    .then((movies) => {
+      setMovies(movies);
+    })
+    .catch(err => console.log(`Ошибка инициализации данных: ${err}`));
+  }, []);
 
   return (
     <div className="app">
@@ -26,7 +37,7 @@ function App() {
           <Route path="/movies" element = {
             <>
               <Header/>
-              <Movies/>
+              <Movies movies={movies}/>
               <Footer/>
             </>
           } />
