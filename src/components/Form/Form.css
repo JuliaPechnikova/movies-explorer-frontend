@@ -1,0 +1,175 @@
+.form {
+  max-width: 396px;
+  margin: auto;
+  padding: 70px 0;
+}
+
+@media screen and (max-width: 490px) {
+  .form__logo {
+    display: block;
+    margin: auto;
+  }  
+}
+
+@media screen and (max-width: 490px) {
+  .form {
+    max-width: 260px;
+    padding: 50 0 80 0;
+  }
+}
+
+.form__hello {
+  padding: 40px 0 16px 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 0;
+}
+
+@media screen and (max-width: 490px) {
+  .form__hello {
+    text-align: center;
+    padding: 50px 0 56px 0;
+  }
+}
+
+.form__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 380px;
+}
+
+@media screen and (max-width: 490px) {
+  .form__form {
+    min-height: 492px;
+  }
+}
+
+.form__header {
+  display: block;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #8B8B8B;
+  padding-top: 24px;
+}
+
+.form__input {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  padding: 5px 0 10px 0;
+  background: 0;
+  border: 0;
+  border-bottom: 1px solid #424242;
+  color: white;
+  outline: none;
+  width: 396px;
+}
+
+
+@media screen and (max-width: 490px) {
+  .form__input {
+    width: 260px;
+  }
+}
+
+.form__input:focus {
+  border-bottom: 1px solid rgba(66, 133, 244, 1);
+}
+
+.form__error {
+  color: #EE3465;
+  padding-top: 6px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.form__error {
+  display: block;
+}
+
+.form__error-input {
+  color: #EE3465;
+}
+
+.form__button {
+  padding: 0;
+  border: 0;
+  background: #4285F4;
+  color: white;
+  width: 396px;
+  height: 45px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 490px) {
+  .form__button {
+    width: 260px;
+  }
+}
+
+.form__button:hover {
+  background: rgba(66, 133, 244, 0.65);
+  transition: 0.25s;
+}
+
+.form__text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #8B8B8B;
+  margin: 0;
+}
+
+@media screen and (max-width: 490px) {
+  .form__text {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+.form__signin {
+  text-decoration: none;
+  color: #4285F4;
+  padding-left: 6px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+@media screen and (max-width: 490px) {
+  .form__signin {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+.form__signin:hover {
+  opacity: 65%;
+  transition: 0.25s;
+}
+
+.form__bottom {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+@media screen and (max-width: 490px) {
+  .form__bottom {
+    padding: 14px 0 30px 0;
+  }
+}

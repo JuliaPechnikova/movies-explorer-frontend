@@ -1,0 +1,57 @@
+.main__content {
+  max-width: 1140px;
+  margin: auto;
+}
+
+.content__movies_width {
+  max-width: 1140px;
+  margin: auto;
+}
+
+@media screen and (max-width: 1270px) {
+  .main__content {
+    max-width: 950px;
+  }
+}
+
+@media screen and (max-width: 1060px) {
+  .main__content {
+    max-width: 668px;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .main__content {
+    max-width: 450px;
+  }
+}
+
+@media screen and (max-width: 555px) {
+  .main__content {
+    max-width: 292px;
+  }
+}
+
+@media screen and (max-width: 1270px) {
+  .content__movies_width {
+    max-width: 950px;
+  }
+}
+
+@media screen and (max-width: 1060px) {
+  .content__movies_width {
+    max-width: 708px;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .content__movies_width {
+    max-width: 450px;
+  }
+}
+
+@media screen and (max-width: 555px) {
+  .content__movies_width {
+    max-width: 292px;
+  }
+} 
