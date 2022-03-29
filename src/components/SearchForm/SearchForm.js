@@ -2,15 +2,28 @@ import './SearchForm.css';
 import findicon from '../../images/search-find.svg';
 import React from 'react';
 
-function SearchForm() {
+function SearchForm(props) {
 
+  const [search, setSearch] = React.useState("");
+
+  function handleSubmit(e) {
+    // Запрещаем браузеру переходить по адресу формы
+    e.preventDefault();
+
+    // Передаём значения управляемых компонентов во внешний обработчик
+    props.onUpdateSearch(search);
+  }
+
+  function handleSearchChange(e) {
+    setSearch(e.target.value);
+  }
 
   return (
     <section className="search-form">
-      <form className="search-form__form">
+      <form className="search-form__form" onSubmit={handleSubmit}>
         <div className="search-form__container">
           <label htmlFor="search" className="search-form__search"></label>
-          <input type="search" id="search" placeholder="Фильм" className="search-form__input"/>
+          <input type="search" id="search" placeholder="Фильм" className="search-form__input" onChange={handleSearchChange} required/>
         </div>
         <div className="search-form__container">
           <div className="search-form__container">

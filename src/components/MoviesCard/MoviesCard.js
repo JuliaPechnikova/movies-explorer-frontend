@@ -3,14 +3,9 @@ import saved from '../../images/save-on.svg';
 import unsaved from '../../images/save-off.svg';
 import deletesaved from '../../images/delete-save.svg';
 import durationToHours from '../../utils/MinsToHours';
-import { Link } from 'react-router-dom';
 
 function MoviesCard(props) {
   const card = props.card;
-
-  console.log(card.trailerLink === null, card.nameRU)
-
-
 
   return (
     <section className="movies-card">

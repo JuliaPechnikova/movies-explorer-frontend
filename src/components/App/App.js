@@ -15,6 +15,7 @@ import moviesApi from '../../utils/MoviesApi';
 function App() {
 
   const [movies, setMovies] = React.useState([]);
+  const [searchedMovies, setSearchedMovies] = React.useState([]);
 
   React.useEffect(() => {
     moviesApi.getInitialMovies()
@@ -23,6 +24,12 @@ function App() {
     })
     .catch(err => console.log(`Ошибка инициализации данных: ${err}`));
   }, []);
+
+  function handleUpdateSearch(search){
+    setSearchedMovies(movies.filter((el) => 
+      el.nameRU.toLowerCase().indexOf(search.toLowerCase()) !== -1
+    ));
+  }
 
   return (
     <div className="app">
@@ -37,7 +44,7 @@ function App() {
           <Route path="/movies" element = {
             <>
               <Header/>
-              <Movies movies={movies}/>
+              <Movies movies={searchedMovies} onUpdateSearch={handleUpdateSearch}/>
               <Footer/>
             </>
           } />

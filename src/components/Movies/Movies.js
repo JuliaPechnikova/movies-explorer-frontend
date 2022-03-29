@@ -5,7 +5,7 @@ import {temp_all_movies} from '../../utils/const.js';
 function Movies(props) {
   return (
     <main className="content content__movies_width">
-      <SearchForm/>
+      <SearchForm onUpdateSearch={props.onUpdateSearch} />
       <MoviesCardList cards={props.movies} savedButton={false}/>
     </main>
   ); 
