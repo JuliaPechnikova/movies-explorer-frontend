@@ -4,18 +4,24 @@ import React from 'react';
 
 function SearchForm(props) {
 
-  const [search, setSearch] = React.useState("");
+  const [query, setQuery] = React.useState("");
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
-
     // Передаём значения управляемых компонентов во внешний обработчик
-    props.onUpdateSearch(search);
+    if (query === "") {
+      props.setQueryError(true);
+      props.onUpdateSearch(null);
+    }
+    else {
+      props.setQueryError(false);
+      props.onUpdateSearch(query);
+    }
   }
 
   function handleSearchChange(e) {
-    setSearch(e.target.value);
+    setQuery(e.target.value);
   }
 
   return (
@@ -23,7 +29,7 @@ function SearchForm(props) {
       <form className="search-form__form" onSubmit={handleSubmit}>
         <div className="search-form__container">
           <label htmlFor="search" className="search-form__search"></label>
-          <input type="search" id="search" placeholder="Фильм" className="search-form__input" onChange={handleSearchChange} required/>
+          <input type="search" id="search" placeholder="Фильм" className="search-form__input" onChange={handleSearchChange}/>
         </div>
         <div className="search-form__container">
           <div className="search-form__container">

@@ -1,19 +1,52 @@
 import logo from '../../images/logo.svg';
 import { Link } from 'react-router-dom';
 import './Form.css';
+import React from 'react';
 
 function Form(props) {
+
+  const [login, setLogin] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  function handleSubmit(e) {
+    // Запрещаем браузеру переходить по адресу формы
+    e.preventDefault();
+
+    // Передаём значения управляемых компонентов во внешний обработчик
+    if (props.name !== "") {
+      props.onUpdateUserAuth({
+        password,
+        login,
+        name: props.name
+      });
+    }
+    else {
+      props.onUpdateUserAuth({
+        password,
+        login
+      });
+    }
+  }
+
+  function handleLoginChange(e) {
+    setLogin(e.target.value);
+  }
+
+  function handlePasswordChange(e) {
+    setPassword(e.target.value);
+  }
+
   return (
     <main className="form">
       <Link to="/"><img src={logo} alt="Logo" className="form__logo"/></Link>
       <h1 className="form__hello">{props.hello}</h1>
-      <form className="form__form">
+      <form className="form__form" onSubmit={handleSubmit}>
         <div>
           {props.children}
           <label htmlFor="email" className="form__header">E-mail</label>
-          <input type="email" defaultValue="pochta@yandex.ru" className="form__input" id="email" name="email" required/>
+          <input type="email" value={login} className="form__input" id="email" name="email" required onChange={handleLoginChange}/>
           <label htmlFor="password" className="form__header">Пароль</label>
-          <input type="password" defaultValue="••••••••••••••" className="form__input form__error-input" id="password" name="email" required/>
+          <input type="password" value={password} className="form__input form__error-input" id="password" name="email" required onChange={handlePasswordChange}/>
           <span className="form__error">Что-то пошло не так...</span>
         </div>
         <button type="submit" className="form__button">{props.button}</button>

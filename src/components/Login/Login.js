@@ -1,9 +1,9 @@
 import './Login.css';
 import Form from '../Form/Form';
 
-function Login() {
+function Login(props) {
   return (
-    <Form hello="Рады видеть!" button="Войти" register="Ещё не зарегистрированы?" link="Регистрация" login={true}/>
+    <Form hello="Рады видеть!" button="Войти" register="Ещё не зарегистрированы?" link="Регистрация" onUpdateUserAuth={props.onUpdateUserAuth}/>
   ); 
 }
 

@@ -1,13 +1,16 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard.js';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+import Preloader from '../Preloader/Preloader.js';
 
 function MoviesCardList(props) {
 
   const cards = props.cards;
+
+  const path = useLocation().pathname;
+
   const [maxCards, setMaxCards] = React.useState(0);
-  const [hideButton, setHideButton] = React.useState(false);
-  const [windowSize, setWindowSize] = React.useState(undefined);
 
   const getWidth = () => window.innerWidth 
     || document.documentElement.clientWidth 
@@ -64,14 +67,24 @@ function MoviesCardList(props) {
     }
   }
 
+  const displayedMovies = cards.filter((card, index) => (index < maxCards));
+
   return (
     <section className="movies-card-list">
-      <ul className={`movies-card-list__elements ${props.savedButton ? "movies-card-list__elements_saved-movies" : ""}`}> 
-          {cards.length === 0 ? <p>Ничего не найдено</p> :
-            cards.map((card, index) => ((index < maxCards) ? <MoviesCard card={card} key={card.id} savedButton={props.savedButton}/> : <></>))
-          }
-      </ul>
-      {cards.length > 0 && cards.length > maxCards ? <button className="movies-card-list__button" onClick={handleClickButton}>Еще</button> : <></>}
+      {props.unsortedMovies.length === 0 && props.searchedMoviesError === false ? <Preloader/> :
+      <ul className={`movies-card-list__elements ${path === '/saved-movies' ? "movies-card-list__elements_saved-movies" : ""}`}>
+        {props.searchedMoviesError ? <p>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.</p> : <></>}
+        {props.queryError ? <p>Нужно ввести ключевое слово</p> : <></>}
+        {props.queryError === false && props.searchedMoviesError === false && cards.length === 0 ? <p>Ничего не найдено</p> :
+          displayedMovies.map(card => 
+          <MoviesCard key={card.id} 
+            card={card}
+            savedMovies={props.savedMovies} 
+            onSaveCard={props.onSaveCard}/>)
+        }
+      </ul>}
+      {cards.length > 0 && cards.length > maxCards ? 
+        <button className="movies-card-list__button" onClick={handleClickButton}>Еще</button> : <></>}
     </section>
   ); 
 }
