@@ -6,7 +6,7 @@ import menu from '../../images/header-menu.svg'
 import Navigation from '../Navigation/Navigation';
 import React from 'react';
 
-function Header() {
+function Header(props) {
   const location = useLocation();
 
   const [isNavigationOpen, setNavigationOpen] = React.useState(false);
@@ -22,13 +22,13 @@ function Header() {
   return (
     <header className="header">
       <Link to="/"><ReactSVG className="header__logo" src={logo} alt="Logo"/></Link>
-      { location.pathname === "/" &&
+      { location.pathname === "/" && props.loggedIn === false &&
         <nav>
           <Link className="header__register" to="/signup">Регистрация</Link>
           <Link className="header__sign-in" to="/signin">Войти</Link>
         </nav>
       }
-      { location.pathname !== "/" &&
+      { location.pathname !== "/" || props.loggedIn === true ?
         <nav className="header__container">
           <div>
             <Link className="header__films" to="/movies">Фильмы</Link>
@@ -36,7 +36,7 @@ function Header() {
           </div>
           <Link className="header__profile" to="/profile">Аккаунт</Link>
           <button className="header__menu" onClick={handleNavigationClick}><img src={menu} alt="Меню"/></button>
-        </nav> 
+        </nav> : <></>
       }
       {<Navigation isOpen={isNavigationOpen} onClose={close}/>}
     </header>

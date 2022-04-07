@@ -8,7 +8,10 @@ function Movies(props) {
 
   return (
     <main className="content content__movies_width">
-      <SearchForm  cards={props.searchedMovies} onUpdateSearch={props.onUpdateSearch} setQueryError={setQueryError}/>
+      <SearchForm
+        cards={props.unsortedMovies}
+        onUpdateSearch={props.onUpdateSearch}
+        setQueryError={setQueryError}/>
       <MoviesCardList 
         cards={props.searchedMovies}
         searchedMoviesError={props.searchedMoviesError}

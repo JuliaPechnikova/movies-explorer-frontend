@@ -6,9 +6,13 @@ import Preloader from '../Preloader/Preloader.js';
 
 function MoviesCardList(props) {
 
-  const cards = props.cards;
+  let cards = props.cards;
 
   const path = useLocation().pathname;
+
+  if (path === "/saved-movies") {
+    cards = props.cards.filter(c => props.savedMovies.includes(c));
+  }
 
   const [maxCards, setMaxCards] = React.useState(0);
 
@@ -77,10 +81,11 @@ function MoviesCardList(props) {
         {props.queryError ? <p>Нужно ввести ключевое слово</p> : <></>}
         {props.queryError === false && props.searchedMoviesError === false && cards.length === 0 ? <p>Ничего не найдено</p> :
           displayedMovies.map(card => 
-          <MoviesCard key={card.id} 
+          <MoviesCard key={card.id || card._id} 
             card={card}
             savedMovies={props.savedMovies} 
-            onSaveCard={props.onSaveCard}/>)
+            onSaveCard={props.onSaveCard}
+            onDeleteCard={props.onDeleteCard}/>)
         }
       </ul>}
       {cards.length > 0 && cards.length > maxCards ? 

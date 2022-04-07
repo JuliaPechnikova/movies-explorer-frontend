@@ -13,6 +13,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import moviesApi from '../../utils/MoviesApi';
 import api from '../../utils/MainApi.js';
 import CurrentUserContext from '../../contexts/CurrentUserContext.js';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({name: ''});
   const [email, setEmail] = React.useState("");
   const [loggedIn, setLoggedIn] = React.useState(false);
+  
 
   React.useEffect(() => {
     tokenCheck();
@@ -31,6 +33,8 @@ function App() {
     setMovies(moviesLocal);
     const searchedMoviesLocal = JSON.parse(localStorage.getItem('searchedMovies') || '[]');
     setSearchedMovies(searchedMoviesLocal);
+    const savedMoviesLocal = JSON.parse(localStorage.getItem('savedMovies') || '[]');
+    setSavedMovies(savedMoviesLocal);
     const searchedMoviesErrorLocal = JSON.parse(localStorage.getItem('searchedMoviesError') || false);
     setSearchedMoviesError(searchedMoviesErrorLocal);
   }, []);
@@ -45,26 +49,30 @@ function App() {
     }
   }, [loggedIn]);
 
-  function handleUpdateSearch(search){
+
+  React.useEffect(() => {
     moviesApi.getInitialMovies()
-      .then((movies) => {
-        setMovies(movies);
-        localStorage.setItem('movies', JSON.stringify(movies));
-        if (search !== null) {
-          const searchMovies = movies.filter((el) => el.nameRU.toLowerCase().indexOf(search.toLowerCase()) !== -1);
-          setSearchedMovies(searchMovies);
-          localStorage.setItem('searchedMovies', JSON.stringify(searchMovies));
-        }
-        else {
-          setSearchedMovies([]);
-          localStorage.setItem('searchedMovies', JSON.stringify([]));
-        }
-      })
-      .catch(
-        err => {console.log(`Ошибка инициализации данных: ${err}`);
-        setSearchedMoviesError(true);
-        localStorage.setItem('searchedMoviesError', JSON.stringify(searchedMoviesError));
-      });
+    .then((movies) => {
+      setMovies(movies);
+      localStorage.setItem('movies', JSON.stringify(movies));
+    })
+    .catch(
+      err => {console.log(`Ошибка инициализации данных: ${err}`);
+      setSearchedMoviesError(true);
+      localStorage.setItem('searchedMoviesError', JSON.stringify(searchedMoviesError));
+    });
+  }, []);
+
+  function handleUpdateSearch(search, movies){
+    if (search !== null) {
+      const searchMovies = movies.filter((el) => el.nameRU.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+      setSearchedMovies(searchMovies);
+      localStorage.setItem('searchedMovies', JSON.stringify(searchMovies));
+    }
+    else {
+      setSearchedMovies([]);
+      localStorage.setItem('searchedMovies', JSON.stringify([]));
+    }
   }
 
   function handleSaveCard(card) {
@@ -75,6 +83,7 @@ function App() {
       api.createMoviesCard(card, !isSaved)
       .then((newMovie) => {
         setSavedMovies([...savedMovies, newMovie]);
+        localStorage.setItem('savedMovies', JSON.stringify([...savedMovies, newMovie]));
       })
       .catch(err => console.log(`Ошибка добавления карточки: ${err}`));
     }
@@ -82,9 +91,19 @@ function App() {
       api.deleteMoviesCard(savedMoviesId._id, isSaved)
       .then(() => {
         setSavedMovies(savedMovies.filter(id => id.movieId !== card.id));
+        localStorage.setItem('savedMovies', JSON.stringify(savedMovies.filter(id => id.movieId !== card.id)));
       })
       .catch(err => console.log(`Ошибка удаления карточки: ${err}`));
     }
+  }
+
+  function handleDeleteCard(card){
+    api.deleteMoviesCard(card._id)
+    .then(() => {
+      setSavedMovies(savedMovies.filter(c => c._id !== card._id));
+      localStorage.setItem('savedMovies', JSON.stringify(savedMovies.filter(c => c._id !== card._id)));
+    })
+    .catch(err => console.log(`Ошибка удаления карточки: ${err}`));
   }
 
   function handleUpdateUserRegister(userAuth){
@@ -142,7 +161,7 @@ function App() {
         <Routes>
             <Route path="/" element = {
               <>
-                <Header/>
+                <Header loggedIn={loggedIn}/>
                 <Main/>
                 <Footer/>
               </>
@@ -150,7 +169,10 @@ function App() {
             <Route path="/movies" element = {
               <>
                 <Header/>
-                <Movies 
+                <ProtectedRoute 
+                  path="/movies"
+                  loggedIn={loggedIn}
+                  component={Movies}
                   searchedMovies={searchedMovies} 
                   searchedMoviesError={searchedMoviesError} 
                   unsortedMovies={movies} 
@@ -164,15 +186,28 @@ function App() {
             <Route path="/saved-movies" element = {
               <>
                 <Header/>
-                <SavedMovies
-                  savedMovies={savedMovies}/>
+                <ProtectedRoute 
+                  path="/saved-movies"
+                  loggedIn={loggedIn}
+                  component={SavedMovies}
+                  searchedMovies={searchedMovies} 
+                  searchedMoviesError={searchedMoviesError}
+                  onUpdateSearch={handleUpdateSearch}
+                  savedMovies={savedMovies}
+                  unsortedMovies={movies} 
+                  onDeleteCard={handleDeleteCard}
+                />
                 <Footer/>
               </>
             } />
             <Route path="/profile" element = {
               <>
                 <Header/>
-                <Profile email={email}/>
+                <ProtectedRoute
+                  path="/profile"
+                  loggedIn={loggedIn}
+                  component={SavedMovies}
+                  email={email}/>
               </>
             } />
             <Route path="/signup" element = {

@@ -8,14 +8,19 @@ import { useLocation } from 'react-router-dom';
 
 function MoviesCard(props) {
   const card = props.card;
-  const savedMovies = props.savedMovies;
 
+  const savedMovies = props.savedMovies;
+  
   const isSaved = savedMovies.some(id => id.movieId === card.id);
 
   const path = useLocation().pathname;
 
   function handleClick() {
     props.onSaveCard(card);
+  }
+
+  function handleDeleteCard() {
+    props.onDeleteCard(card);
   }
 
   return (
@@ -26,7 +31,7 @@ function MoviesCard(props) {
           <p className="movies-card__film-time">{durationToHours(card.duration)}</p>
         </div>
         {path === '/saved-movies' &&
-          (<button className="movies-card__button">
+          (<button className="movies-card__button" onClick={handleDeleteCard}>
             <img src={deletesaved} alt="Delete"/>
           </button>)}
         {path === '/movies' &&
@@ -36,7 +41,7 @@ function MoviesCard(props) {
         }
       </div>
       <a target="_blank" rel="noreferrer" href={card.trailerLink}>
-        <img className="movies-card__image" src={`https://api.nomoreparties.co/${card.image.url}`} alt={card.image.name} />
+        <img className="movies-card__image" src={`${card.image.url === undefined ? card.image : "https://api.nomoreparties.co" + card.image.url}`} alt={card.image.name === undefined ? card.nameRU : card.image.name} />
       </a>
     </li>
   ); 

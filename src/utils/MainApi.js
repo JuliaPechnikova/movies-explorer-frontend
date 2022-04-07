@@ -47,8 +47,8 @@ class Api {
   }
 
   createMoviesCard(card) {
-    const urlTambnail = `https://api.nomoreparties.co/${card.image.formats.thumbnail.url}`;
-    const urlImage = `https://api.nomoreparties.co/${card.image.url}`;
+    const urlTumbnail = `https://api.nomoreparties.co${card.image.formats.thumbnail.url}`;
+    const urlImage = `https://api.nomoreparties.co${card.image.url}`;
     const nameEN = card.nameEN === "" ? card.nameRU : card.nameEN;
 
     return fetch(`${this._baseUrl}movies`, {
@@ -58,7 +58,7 @@ class Api {
         nameRU: card.nameRU,
         nameEN: nameEN,
         trailerLink: card.trailerLink,
-        thumbnail: urlTambnail,
+        thumbnail: urlTumbnail,
         image: urlImage,
         country: card.country,
         director: card.director,
