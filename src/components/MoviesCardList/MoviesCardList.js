@@ -3,6 +3,7 @@ import MoviesCard from '../MoviesCard/MoviesCard.js';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Preloader from '../Preloader/Preloader.js';
+import moviesApi from '../../utils/MoviesApi';
 
 function MoviesCardList(props) {
 
@@ -11,7 +12,12 @@ function MoviesCardList(props) {
   const path = useLocation().pathname;
 
   if (path === "/saved-movies") {
-    cards = props.cards.filter(c => props.savedMovies.includes(c));
+    cards = cards.map(c => {
+      const [cards_filtered] = props.savedMovies.filter(m => 
+        c.id === m.movieId
+      )
+      return cards_filtered}
+    ).filter(card => card !== undefined);
   }
 
   const [maxCards, setMaxCards] = React.useState(0);

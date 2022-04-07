@@ -57,7 +57,21 @@ function App() {
       localStorage.setItem('movies', JSON.stringify(movies));
     })
     .catch(
-      err => {console.log(`Ошибка инициализации данных: ${err}`);
+      err => {console.log(`Ошибка инициализации фильмов: ${err}`);
+      setSearchedMoviesError(true);
+      localStorage.setItem('searchedMoviesError', JSON.stringify(searchedMoviesError));
+    });
+  }, []);
+
+
+  React.useEffect(() => {
+    api.getSavedCards()
+    .then((movies) => {
+      setSavedMovies(movies);
+      localStorage.setItem('savedMovies', JSON.stringify(movies));
+    })
+    .catch(
+      err => {console.log(`Ошибка инициализации сохраненных фильмов: ${err}`);
       setSearchedMoviesError(true);
       localStorage.setItem('searchedMoviesError', JSON.stringify(searchedMoviesError));
     });
