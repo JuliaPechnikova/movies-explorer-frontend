@@ -19,6 +19,7 @@ function Movies(props) {
         queryError={queryError}
         savedMovies={props.savedMovies}
         onSaveCard={props.onSaveCard}
+        preloader={props.preloader}
       />
     </main>
   ); 

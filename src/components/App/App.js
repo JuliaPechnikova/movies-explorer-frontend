@@ -21,11 +21,12 @@ function App() {
   const [movies, setMovies] = React.useState([]);
   const [searchedMovies, setSearchedMovies] = React.useState([]);
   const [searchedMoviesError, setSearchedMoviesError] = React.useState(false);
+  const [registerError, setRegisterError] = React.useState(false);
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState({name: ''});
   const [email, setEmail] = React.useState("");
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  
+  const [loggedIn, setLoggedIn] = React.useState(false);  
+  const [preloader, setPreloader] = React.useState(true);
 
   React.useEffect(() => {
     tokenCheck();
@@ -35,8 +36,8 @@ function App() {
     setSearchedMovies(searchedMoviesLocal);
     const savedMoviesLocal = JSON.parse(localStorage.getItem('savedMovies') || '[]');
     setSavedMovies(savedMoviesLocal);
-    const searchedMoviesErrorLocal = JSON.parse(localStorage.getItem('searchedMoviesError') || false);
-    setSearchedMoviesError(searchedMoviesErrorLocal);
+    const profileDataLocal = JSON.parse(localStorage.getItem('profileData') || '[]');
+    setCurrentUser(profileDataLocal);
   }, []);
 
   React.useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
       api.getUserProfile()
       .then((profileData) => {
         setCurrentUser(profileData);
+        localStorage.setItem('profileData', JSON.stringify(profileData));
       })
       .catch(err => console.log(`Ошибка инициализации пользователя: ${err}`));
     }
@@ -51,33 +53,42 @@ function App() {
 
 
   React.useEffect(() => {
-    moviesApi.getInitialMovies()
-    .then((movies) => {
-      setMovies(movies);
-      localStorage.setItem('movies', JSON.stringify(movies));
-    })
-    .catch(
-      err => {console.log(`Ошибка инициализации фильмов: ${err}`);
-      setSearchedMoviesError(true);
-      localStorage.setItem('searchedMoviesError', JSON.stringify(searchedMoviesError));
-    });
-  }, []);
+    if (loggedIn===true) {
+      setPreloader(true);
+      moviesApi.getInitialMovies()
+      .then((movies) => {
+        setPreloader(false);
+        setMovies(movies);
+        localStorage.setItem('movies', JSON.stringify(movies));
+      })
+      .catch(
+        err => {console.log(`Ошибка инициализации фильмов: ${err}`);
+        setSearchedMoviesError(true);
+      });
+    }
+  }, [loggedIn]);
 
+  function handleClickExit(){
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+  }
 
   React.useEffect(() => {
-    api.getSavedCards()
-    .then((movies) => {
-      setSavedMovies(movies);
-      localStorage.setItem('savedMovies', JSON.stringify(movies));
-    })
-    .catch(
-      err => {console.log(`Ошибка инициализации сохраненных фильмов: ${err}`);
-      setSearchedMoviesError(true);
-      localStorage.setItem('searchedMoviesError', JSON.stringify(searchedMoviesError));
-    });
-  }, []);
+    if (loggedIn===true) {
+      setPreloader(true);
+      api.getSavedCards()
+      .then((movies) => {
+        setPreloader(false);
+        setSavedMovies(movies);
+        localStorage.setItem('savedMovies', JSON.stringify(movies));
+      })
+      .catch(
+        err => {console.log(`Ошибка инициализации сохраненных фильмов: ${err}`);
+      });
+    }
+  }, [loggedIn]);
 
-  function handleUpdateSearch(search, movies){
+  function handleUpdateSearch(search){
     if (search !== null) {
       const searchMovies = movies.filter((el) => el.nameRU.toLowerCase().indexOf(search.toLowerCase()) !== -1);
       setSearchedMovies(searchMovies);
@@ -130,6 +141,7 @@ function App() {
       }
     })
     .catch(err => {
+      setRegisterError(true);
       return console.log(`Ошибка регистрации: ${err}`);
     });
   }
@@ -145,19 +157,16 @@ function App() {
       }
     })
     .catch(err => {
+      setRegisterError(true);
       return console.log(`Ошибка авторизации: ${err}`);
     });
   }
 
   function tokenCheck() {
     const token = localStorage.getItem('token');
-    // если у пользователя есть токен в localStorage,
-    // эта функция проверит валидность токена
     if (token){
-      // проверим токен
       api.emailInfo(token).then((res) => {
         if (res){
-          // авторизуем пользователя
           setLoggedIn(true);
           navigate('/movies');
           setEmail(res.email);
@@ -193,6 +202,7 @@ function App() {
                   onUpdateSearch={handleUpdateSearch}
                   onSaveCard={handleSaveCard}
                   savedMovies={savedMovies}
+                  preloader={preloader}
                 />
                 <Footer/>
               </>
@@ -210,6 +220,7 @@ function App() {
                   savedMovies={savedMovies}
                   unsortedMovies={movies} 
                   onDeleteCard={handleDeleteCard}
+                  preloader={preloader}
                 />
                 <Footer/>
               </>
@@ -219,16 +230,17 @@ function App() {
                 <Header/>
                 <ProtectedRoute
                   path="/profile"
+                  component={Profile}
                   loggedIn={loggedIn}
-                  component={SavedMovies}
-                  email={email}/>
+                  email={email}
+                  onClick={handleClickExit}/>
               </>
             } />
             <Route path="/signup" element = {
-              <Register onUpdateUserAuth={handleUpdateUserRegister}/>
+              <Register onUpdateUserAuth={handleUpdateUserRegister} registerError={registerError}/>
             } />
             <Route path="/signin" element = {
-              <Login onUpdateUserAuth={handleUpdateUserLogin}/>
+              <Login onUpdateUserAuth={handleUpdateUserLogin} registerError={registerError}/>
             } />
             <Route exact path="*" element = {
               <NotFound/>

@@ -2,11 +2,13 @@ import logo from '../../images/logo.svg';
 import { Link } from 'react-router-dom';
 import './Form.css';
 import React from 'react';
+import validator from 'validator';
 
 function Form(props) {
 
   const [login, setLogin] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState(false);
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
@@ -29,7 +31,10 @@ function Form(props) {
   }
 
   function handleLoginChange(e) {
-    setLogin(e.target.value);
+    setLogin(e.target.value)
+    if (!validator.isEmail(e.target.value)) {
+      setError(true);
+    }
   }
 
   function handlePasswordChange(e) {
@@ -45,9 +50,10 @@ function Form(props) {
           {props.children}
           <label htmlFor="email" className="form__header">E-mail</label>
           <input type="email" value={login} className="form__input" id="email" name="email" required onChange={handleLoginChange}/>
+          {error ? <span className="form__error">E-mail неверный</span> : <></>}
           <label htmlFor="password" className="form__header">Пароль</label>
           <input type="password" value={password} className="form__input form__error-input" id="password" name="email" required onChange={handlePasswordChange}/>
-          <span className="form__error">Что-то пошло не так...</span>
+          {props.registerError ? <span className="form__error">Что-то пошло не так...</span> : <></>}
         </div>
         <button type="submit" className="form__button">{props.button}</button>
       </form>

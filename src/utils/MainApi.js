@@ -50,6 +50,7 @@ class Api {
     const urlTumbnail = `https://api.nomoreparties.co${card.image.formats.thumbnail.url}`;
     const urlImage = `https://api.nomoreparties.co${card.image.url}`;
     const nameEN = card.nameEN === "" ? card.nameRU : card.nameEN;
+    const country = card.country === null ? "Undefined" : card.country;
 
     return fetch(`${this._baseUrl}movies`, {
       method: 'POST',
@@ -60,7 +61,7 @@ class Api {
         trailerLink: card.trailerLink,
         thumbnail: urlTumbnail,
         image: urlImage,
-        country: card.country,
+        country: country,
         director: card.director,
         duration: card.duration,
         year: card.year,

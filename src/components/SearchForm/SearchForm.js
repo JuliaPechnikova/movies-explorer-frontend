@@ -12,11 +12,11 @@ function SearchForm(props) {
     // Передаём значения управляемых компонентов во внешний обработчик
     if (query === "") {
       props.setQueryError(true);
-      props.onUpdateSearch(null, props.cards);
+      props.onUpdateSearch(null);
     }
     else {
       props.setQueryError(false);
-      props.onUpdateSearch(query, props.cards);
+      props.onUpdateSearch(query);
     }
   }
 

@@ -3,7 +3,6 @@ import MoviesCard from '../MoviesCard/MoviesCard.js';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Preloader from '../Preloader/Preloader.js';
-import moviesApi from '../../utils/MoviesApi';
 
 function MoviesCardList(props) {
 
@@ -27,26 +26,15 @@ function MoviesCardList(props) {
     || document.body.clientWidth;
 
   function useCurrentWidth() {
-    // save current window width in the state object
     let [width, setWidth] = React.useState(getWidth());
-
-    // in this case useEffect will execute only once because
-    // it does not have any dependencies.
     React.useEffect(() => {
-      // timeoutId for debounce mechanism
       let timeoutId = null;
       const resizeListener = () => {
-        // prevent execution of previous setTimeout
         clearTimeout(timeoutId);
-        // change width from the state object after 150 milliseconds
         timeoutId = setTimeout(() => setWidth(getWidth()), 150);
       };
-      // set resize listener
       window.addEventListener('resize', resizeListener);
-
-      // clean up function
       return () => {
-        // remove resize listener
         window.removeEventListener('resize', resizeListener);
       }
     }, [])
@@ -81,20 +69,21 @@ function MoviesCardList(props) {
 
   return (
     <section className="movies-card-list">
-      {props.unsortedMovies.length === 0 && props.searchedMoviesError === false ? <Preloader/> :
+      {props.preloader === true && props.searchedMoviesError === false ? <Preloader/> :
       <ul className={`movies-card-list__elements ${path === '/saved-movies' ? "movies-card-list__elements_saved-movies" : ""}`}>
         {props.searchedMoviesError ? <p>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.</p> : <></>}
         {props.queryError ? <p>Нужно ввести ключевое слово</p> : <></>}
         {props.queryError === false && props.searchedMoviesError === false && cards.length === 0 ? <p>Ничего не найдено</p> :
+        props.searchedMoviesError === false ?
           displayedMovies.map(card => 
           <MoviesCard key={card.id || card._id} 
             card={card}
             savedMovies={props.savedMovies} 
             onSaveCard={props.onSaveCard}
-            onDeleteCard={props.onDeleteCard}/>)
+            onDeleteCard={props.onDeleteCard}/>) : <></>
         }
       </ul>}
-      {cards.length > 0 && cards.length > maxCards ? 
+      {cards.length > 0 && cards.length > maxCards && props.searchedMoviesError === false ? 
         <button className="movies-card-list__button" onClick={handleClickButton}>Еще</button> : <></>}
     </section>
   ); 
