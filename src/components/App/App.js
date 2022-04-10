@@ -21,12 +21,14 @@ function App() {
   const [movies, setMovies] = React.useState([]);
   const [searchedMovies, setSearchedMovies] = React.useState([]);
   const [searchedMoviesError, setSearchedMoviesError] = React.useState(false);
-  const [registerError, setRegisterError] = React.useState(false);
+  const [apiError, setApiError] = React.useState(false);
+  const [apiSuccess, setApiSuccess] = React.useState(false);
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState({name: ''});
   const [email, setEmail] = React.useState("");
   const [loggedIn, setLoggedIn] = React.useState(false);  
   const [preloader, setPreloader] = React.useState(true);
+  const [shortMovies, setShortMovies] = React.useState(false);
 
   React.useEffect(() => {
     tokenCheck();
@@ -88,11 +90,16 @@ function App() {
     }
   }, [loggedIn]);
 
-  function handleUpdateSearch(search){
+  function handleUpdateSearch(search, checkedState){
     if (search !== null) {
       const searchMovies = movies.filter((el) => el.nameRU.toLowerCase().indexOf(search.toLowerCase()) !== -1);
       setSearchedMovies(searchMovies);
       localStorage.setItem('searchedMovies', JSON.stringify(searchMovies));
+      if (checkedState) {
+        const queryShort = searchMovies.filter((el) => el.duration < 40);
+        setSearchedMovies(queryShort);
+        localStorage.setItem('searchedMovies', JSON.stringify(queryShort));
+      }
     }
     else {
       setSearchedMovies([]);
@@ -135,13 +142,13 @@ function App() {
     api.register(userAuth)
     .then((res) => {
       if(res){
-        navigate('/signin');
+        handleUpdateUserLogin(userAuth);
       } else {
         console.log("Что-то пошло не так!");
       }
     })
     .catch(err => {
-      setRegisterError(true);
+      setApiError(true);
       return console.log(`Ошибка регистрации: ${err}`);
     });
   }
@@ -157,8 +164,20 @@ function App() {
       }
     })
     .catch(err => {
-      setRegisterError(true);
+      setApiError(true);
       return console.log(`Ошибка авторизации: ${err}`);
+    });
+  }
+
+  function handleUpdateUserProfile(userData){
+    api.setUserProfile(userData)
+    .then((userData) => {
+      setCurrentUser(userData);
+      setApiSuccess(true);
+    })
+    .catch(err => {
+      setApiError(true);
+      console.log(`Ошибка изменения параметров профиля: ${err}`)
     });
   }
 
@@ -233,14 +252,20 @@ function App() {
                   component={Profile}
                   loggedIn={loggedIn}
                   email={email}
-                  onClick={handleClickExit}/>
+                  onClick={handleClickExit}
+                  apiError={apiError}
+                  apiSuccess={apiSuccess}
+                  setApiError={setApiError}
+                  setApiSuccess={setApiSuccess}
+                  onUpdateUserProfile={handleUpdateUserProfile}
+                />
               </>
             } />
             <Route path="/signup" element = {
-              <Register onUpdateUserAuth={handleUpdateUserRegister} registerError={registerError}/>
+              <Register onUpdateUserAuth={handleUpdateUserRegister} registerError={apiError} setApiError={setApiError}/>
             } />
             <Route path="/signin" element = {
-              <Login onUpdateUserAuth={handleUpdateUserLogin} registerError={registerError}/>
+              <Login onUpdateUserAuth={handleUpdateUserLogin} registerError={apiError} setApiError={setApiError}/>
             } />
             <Route exact path="*" element = {
               <NotFound/>

@@ -70,10 +70,10 @@ function MoviesCardList(props) {
   return (
     <section className="movies-card-list">
       {props.preloader === true && props.searchedMoviesError === false ? <Preloader/> :
-      <ul className={`movies-card-list__elements ${path === '/saved-movies' ? "movies-card-list__elements_saved-movies" : ""}`}>
-        {props.searchedMoviesError ? <p>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.</p> : <></>}
-        {props.queryError ? <p>Нужно ввести ключевое слово</p> : <></>}
-        {props.queryError === false && props.searchedMoviesError === false && cards.length === 0 ? <p>Ничего не найдено</p> :
+      <ul className={`movies-card-list__elements ${path === '/saved-movies' ? "movies-card-list__elements_saved-movies" : ""} ${props.searchedMoviesError || cards.length === 0 ? "movies-card-list__elements_error" : ""}`}>
+        {props.searchedMoviesError ? <p className="movies-card-list__error-message">Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.</p> : <></>}
+        {props.queryError && !props.searchedMoviesError ? <p className="movies-card-list__error-message">Нужно ввести ключевое слово</p> : <></>}
+        {props.queryError === false && props.searchedMoviesError === false && cards.length === 0 ? <p className="movies-card-list__error-message">Ничего не найдено</p> :
         props.searchedMoviesError === false ?
           displayedMovies.map(card => 
           <MoviesCard key={card.id || card._id} 

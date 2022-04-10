@@ -45,6 +45,7 @@
   font-weight: 500;
   font-size: 11px;
   line-height: 13px;
+  width: 100%;
 }
 
 .profile__input {
@@ -58,6 +59,7 @@
   color: white;
   text-align: right;
   outline: none;
+  width: 100%;
 }
 
 .profile__button {
@@ -72,6 +74,10 @@
   padding: 220px 0 16px 0;
   border: 0;
   cursor: pointer;
+}
+
+.profile__button_disabled {
+  opacity: 65%;
 }
 
 @media screen and (max-width: 555px) {
@@ -99,4 +105,22 @@
 .profile__exit:hover {
   opacity: 65%;
   transition: 0.25s;
+}
+
+.profile__error {
+  color: #EE3465;
+  padding-top: 6px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.profile__success {
+  color: greenyellow;
+  padding-top: 6px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
 }

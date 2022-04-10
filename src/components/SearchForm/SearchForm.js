@@ -5,6 +5,7 @@ import React from 'react';
 function SearchForm(props) {
 
   const [query, setQuery] = React.useState("");
+  const [checkedState, setCheckedState] = React.useState(false);
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
@@ -16,13 +17,23 @@ function SearchForm(props) {
     }
     else {
       props.setQueryError(false);
-      props.onUpdateSearch(query);
+      props.onUpdateSearch(query, checkedState);
     }
   }
 
   function handleSearchChange(e) {
     setQuery(e.target.value);
   }
+
+  function handleSearchChangeShort(e) {
+    if (!checkedState) {
+      setCheckedState(true);
+    }
+    else {
+      setCheckedState(false);
+    }
+  }
+
 
   return (
     <section className="search-form">
@@ -38,7 +49,7 @@ function SearchForm(props) {
           </div>
           <div className="search-form__tumb-container">
             <label className="search-form__tumb">
-              <input type="checkbox" id="tumb" className="search-form__tumb-inner" defaultChecked/>
+              <input type="checkbox" id="tumb" className="search-form__tumb-inner" checked={checkedState} onChange={handleSearchChangeShort}/>
               <span className="search-form__tumb-slider"></span>
             </label>
             <label htmlFor="tumb" className="search-form__tumb-description">Короткометражки</label>

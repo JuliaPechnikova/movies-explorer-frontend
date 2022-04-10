@@ -11,6 +11,17 @@
   margin: 0;
 }
 
+.movies-card-list__error-message {
+  margin: 0;
+  padding: 0 20px;
+}
+
+.movies-card-list__elements_error {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
 .movies-card-list__elements_saved-movies {
   padding: 0 0 170px 0;
 }
