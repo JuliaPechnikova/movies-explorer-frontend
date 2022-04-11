@@ -125,7 +125,8 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://api.jp-movies.nomoredomains.work/'
+  // baseUrl: 'https://api.jp-movies.nomoredomains.work/'
+  baseUrl: 'http://localhost:3001/'
 });
 
 export default api;

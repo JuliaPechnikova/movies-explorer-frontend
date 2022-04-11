@@ -14,24 +14,26 @@ export function useFormWithValidation() {
     setValues({...values, [name]: value});
 
     if (name === 'login') {
-      setIsValid(validator.isEmail(value));
       if (!validator.isEmail(value)) {
+        setIsValid(false);
         setErrors({...errors, [name]: 'E-mail неверный' })}
       else {
+        setIsValid(target.closest('form').checkValidity());
         setErrors({...errors, [name]: '' });
       }
     }
     else if (name === 'name') {
       const regex = /^[a-zA-Zа-яА-Я -]{2,30}$/;
-      regex.test(value);
       
-      setIsValid(regex.test(value));
       if (!regex.test(value)) {
+        setIsValid(false);
         setErrors({...errors, [name]: 'Поле name должно содержать только латиницу, кириллицу, пробел или дефис' })}
       else {
+        setIsValid(target.closest('form').checkValidity());
         setErrors({...errors, [name]: '' });
       }
     }
+
     else {
       setIsValid(target.closest('form').checkValidity());
       setErrors({...errors, [name]: target.validationMessage });
