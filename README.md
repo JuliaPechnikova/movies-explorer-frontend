@@ -1,3 +1,3 @@
 # movies-explorer-frontend
 
-jp-movies.nomoredomain.work
+https://jp-movies.nomoredomains.work/
