@@ -4,18 +4,18 @@ import React from 'react';
 
 function Movies(props) {
 
-  const [queryError, setQueryError] = React.useState(false);
+  const [queryError, setQueryError] = React.useState(true);
 
   return (
     <main className="content content__movies_width">
       <SearchForm
-        cards={props.unsortedMovies}
         onUpdateSearch={props.onUpdateSearch}
-        setQueryError={setQueryError}/>
+        setQueryError={setQueryError}
+        checkedState={props.checkedState}
+        query={props.query}/>
       <MoviesCardList 
         cards={props.searchedMovies}
         searchedMoviesError={props.searchedMoviesError}
-        unsortedMovies={props.unsortedMovies}
         queryError={queryError}
         savedMovies={props.savedMovies}
         onSaveCard={props.onSaveCard}

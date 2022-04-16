@@ -9,7 +9,7 @@ import Register from '../Register/Register.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
 import NotFound from '../NotFound/NotFound';
 import React from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import moviesApi from '../../utils/MoviesApi';
 import api from '../../utils/MainApi.js';
 import CurrentUserContext from '../../contexts/CurrentUserContext.js';
@@ -17,33 +17,47 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
   const navigate = useNavigate();
+  const path = useLocation().pathname;
 
   const [movies, setMovies] = React.useState([]);
-  const [searchedMovies, setSearchedMovies] = React.useState([]);
+  const [filteredMovies, setFilteredMovies] =React.useState([]);
+  const [savedMovies, setSavedMovies] = React.useState([]);
+  const [filteredSavedMovies, setFilteredSavedMovies] = React.useState([]);
   const [searchedMoviesError, setSearchedMoviesError] = React.useState(false);
   const [apiError, setApiError] = React.useState(false);
   const [apiSuccess, setApiSuccess] = React.useState(false);
-  const [savedMovies, setSavedMovies] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState({name: ''});
   const [email, setEmail] = React.useState("");
   const [loggedIn, setLoggedIn] = React.useState(false);  
   const [preloader, setPreloader] = React.useState(true);
-  const [shortMovies, setShortMovies] = React.useState(false);
+  const [checkedState, setCheckedState] = React.useState(false);
+  const [query, setQuery] = React.useState("");
 
   React.useEffect(() => {
     tokenCheck();
+    const checkedStateLocal = JSON.parse(localStorage.getItem('checkedState') || 'false');
+    setCheckedState(checkedStateLocal);
+    const queryLocal = JSON.parse(localStorage.getItem('query'));
+    setQuery(queryLocal);
     const moviesLocal = JSON.parse(localStorage.getItem('movies') || '[]');
     setMovies(moviesLocal);
-    const searchedMoviesLocal = JSON.parse(localStorage.getItem('searchedMovies') || '[]');
-    setSearchedMovies(searchedMoviesLocal);
     const savedMoviesLocal = JSON.parse(localStorage.getItem('savedMovies') || '[]');
     setSavedMovies(savedMoviesLocal);
+    const filteredMoviesLocal = JSON.parse(localStorage.getItem('filteredMovies') || '[]');
+    setFilteredMovies(filteredMoviesLocal);
     const profileDataLocal = JSON.parse(localStorage.getItem('profileData') || '[]');
     setCurrentUser(profileDataLocal);
   }, []);
 
   React.useEffect(() => {
-    if (loggedIn===true) {
+    const checkedStateLocal = JSON.parse(localStorage.getItem('checkedState') || 'false');
+    setCheckedState(checkedStateLocal);
+    const queryLocal = JSON.parse(localStorage.getItem('query'));
+    setQuery(queryLocal);
+  }, [path]);
+
+  React.useEffect(() => {
+    if (loggedIn) {
       api.getUserProfile()
       .then((profileData) => {
         setCurrentUser(profileData);
@@ -55,7 +69,7 @@ function App() {
 
 
   React.useEffect(() => {
-    if (loggedIn===true) {
+    if (loggedIn) {
       setPreloader(true);
       moviesApi.getInitialMovies()
       .then((movies) => {
@@ -70,13 +84,23 @@ function App() {
     }
   }, [loggedIn]);
 
+  React.useEffect(() => {
+    setFilteredSavedMovies(filterSavedCards());
+  }, [savedMovies]);
+
   function handleClickExit(){
+    localStorage.removeItem('query');
+    localStorage.removeItem('checkedState');
+    localStorage.removeItem('movies');
+    localStorage.removeItem('savedMovies');
+    localStorage.removeItem('profileData');
+    localStorage.removeItem('filteredMovies');
     localStorage.removeItem('token');
     setLoggedIn(false);
   }
 
   React.useEffect(() => {
-    if (loggedIn===true) {
+    if (loggedIn) {
       setPreloader(true);
       api.getSavedCards()
       .then((movies) => {
@@ -88,22 +112,62 @@ function App() {
         err => {console.log(`Ошибка инициализации сохраненных фильмов: ${err}`);
       });
     }
-  }, [loggedIn]);
+  }, [loggedIn, movies]);
 
-  function handleUpdateSearch(search, checkedState){
-    if (search !== null) {
-      const searchMovies = movies.filter((el) => el.nameRU.toLowerCase().indexOf(search.toLowerCase()) !== -1);
-      setSearchedMovies(searchMovies);
-      localStorage.setItem('searchedMovies', JSON.stringify(searchMovies));
-      if (checkedState) {
-        const queryShort = searchMovies.filter((el) => el.duration < 40);
-        setSearchedMovies(queryShort);
-        localStorage.setItem('searchedMovies', JSON.stringify(queryShort));
+  function handleUpdateSearch(search, checkedState, path){
+    if (search !== "") {
+      if (path === "/movies") {
+        const searchMovies = movies.filter((el) => el.nameRU.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+        setFilteredMovies(searchMovies);
+        localStorage.setItem('filteredMovies', JSON.stringify(searchMovies));
+        localStorage.setItem('query', JSON.stringify(search));
+        checkQueryShort(checkedState, searchMovies, path);
+      }
+      else if (path === "/saved-movies") {
+        const cards = filterSavedCards();
+        const searchMovies = cards.filter((el) => el.nameRU.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+        setFilteredSavedMovies(searchMovies);
+        checkQueryShort(checkedState, searchMovies, path);
       }
     }
     else {
-      setSearchedMovies([]);
-      localStorage.setItem('searchedMovies', JSON.stringify([]));
+      if (path === "/movies") {
+        setFilteredMovies([]);
+        localStorage.setItem('filteredMovies', JSON.stringify([]));
+        localStorage.setItem('query', JSON.stringify(search));
+      }
+      else if (path === "/saved-movies") {
+      const cards = filterSavedCards();
+        setFilteredSavedMovies(cards);
+        checkQueryShort(checkedState, filteredSavedMovies, path);
+      }
+    }
+  }
+
+  function filterSavedCards () {
+    const cards = movies.map(c => {
+      const [cards_filtered] = savedMovies.filter(m => 
+        c.id === m.movieId
+      )
+      return cards_filtered}
+    ).filter(card => card !== undefined);
+    return cards;
+  }
+
+  function checkQueryShort(checkedState, searchMovies, path){
+    if (checkedState) {
+      const queryShort = searchMovies.filter((el) => el.duration < 40);
+      if (path === "/movies") {
+        setFilteredMovies(queryShort);
+        localStorage.setItem('filteredMovies', JSON.stringify(queryShort));
+        localStorage.setItem('checkedState', JSON.stringify(true));
+      }
+      else if (path === "/saved-movies") {
+        setFilteredSavedMovies(queryShort);
+      }
+    }
+    else {
+      localStorage.setItem('checkedState', JSON.stringify(false));
     }
   }
 
@@ -215,13 +279,14 @@ function App() {
                   path="/movies"
                   loggedIn={loggedIn}
                   component={Movies}
-                  searchedMovies={searchedMovies} 
+                  searchedMovies={filteredMovies} 
                   searchedMoviesError={searchedMoviesError} 
-                  unsortedMovies={movies} 
                   onUpdateSearch={handleUpdateSearch}
                   onSaveCard={handleSaveCard}
                   savedMovies={savedMovies}
                   preloader={preloader}
+                  checkedState={checkedState}
+                  query={query}
                 />
                 <Footer/>
               </>
@@ -233,13 +298,14 @@ function App() {
                   path="/saved-movies"
                   loggedIn={loggedIn}
                   component={SavedMovies}
-                  searchedMovies={searchedMovies} 
+                  searchedMovies={filteredSavedMovies} 
                   searchedMoviesError={searchedMoviesError}
                   onUpdateSearch={handleUpdateSearch}
-                  savedMovies={savedMovies}
-                  unsortedMovies={movies} 
                   onDeleteCard={handleDeleteCard}
+                  savedMovies={savedMovies}
                   preloader={preloader}
+                  checkedState={false}
+                  query={""}
                 />
                 <Footer/>
               </>

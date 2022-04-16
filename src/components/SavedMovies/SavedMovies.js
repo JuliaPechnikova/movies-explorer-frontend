@@ -9,15 +9,15 @@ function SavedMovies(props) {
   return (
     <main className="content content__movies_width">
       <SearchForm
-        cards={props.searchedMovies}
         onUpdateSearch={props.onUpdateSearch}
-        setQueryError={setQueryError}/>
+        setQueryError={setQueryError}
+        checkedState={props.checkedState}
+        query={props.query}/>
       <MoviesCardList
         cards={props.searchedMovies}
         searchedMoviesError={props.searchedMoviesError}
-        unsortedMovies={props.unsortedMovies}
-        queryError={queryError}
         savedMovies={props.savedMovies}
+        queryError={queryError}
         onDeleteCard={props.onDeleteCard}
         preloader={props.preloader}
       />

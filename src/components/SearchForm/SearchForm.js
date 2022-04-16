@@ -1,11 +1,14 @@
 import './SearchForm.css';
 import findicon from '../../images/search-find.svg';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+
 
 function SearchForm(props) {
 
-  const [query, setQuery] = React.useState("");
-  const [checkedState, setCheckedState] = React.useState(false);
+  const path = useLocation().pathname;
+  const [query, setQuery] = React.useState(props.query);
+  const [checkedState, setCheckedState] = React.useState(props.checkedState);
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
@@ -13,11 +16,11 @@ function SearchForm(props) {
     // Передаём значения управляемых компонентов во внешний обработчик
     if (query === "") {
       props.setQueryError(true);
-      props.onUpdateSearch(null);
+      props.onUpdateSearch(query, checkedState, path);
     }
     else {
       props.setQueryError(false);
-      props.onUpdateSearch(query, checkedState);
+      props.onUpdateSearch(query, checkedState, path);
     }
   }
 
@@ -40,7 +43,7 @@ function SearchForm(props) {
       <form className="search-form__form" onSubmit={handleSubmit}>
         <div className="search-form__container">
           <label htmlFor="search" className="search-form__search"></label>
-          <input type="search" id="search" placeholder="Фильм" className="search-form__input" onChange={handleSearchChange}/>
+          <input type="search" id="search" placeholder="Фильм" value={query} className="search-form__input" onChange={handleSearchChange}/>
         </div>
         <div className="search-form__container">
           <div className="search-form__container">
