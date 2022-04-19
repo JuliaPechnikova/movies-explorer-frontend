@@ -94,6 +94,7 @@ function App() {
 
   function handleClickExit(){
     localStorage.clear();
+    setFilteredMovies([]);
     setLoggedIn(false);
   }
 
