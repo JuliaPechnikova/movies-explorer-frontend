@@ -14,6 +14,7 @@ import moviesApi from '../../utils/MoviesApi';
 import api from '../../utils/MainApi.js';
 import CurrentUserContext from '../../contexts/CurrentUserContext.js';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import {SHORT_FILM_DURATION} from '../../utils/const';
 
 function App() {
   const navigate = useNavigate();
@@ -28,13 +29,16 @@ function App() {
   const [apiSuccess, setApiSuccess] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({name: ''});
   const [email, setEmail] = React.useState("");
-  const [loggedIn, setLoggedIn] = React.useState(false);  
+  const [loggedIn, setLoggedIn] = React.useState(null);  
   const [preloader, setPreloader] = React.useState(true);
   const [checkedState, setCheckedState] = React.useState(false);
   const [query, setQuery] = React.useState("");
 
+
   React.useEffect(() => {
-    tokenCheck();
+    setTimeout(() => {
+      tokenCheck();
+    }, 100);
     const checkedStateLocal = JSON.parse(localStorage.getItem('checkedState') || 'false');
     setCheckedState(checkedStateLocal);
     const queryLocal = JSON.parse(localStorage.getItem('query'));
@@ -89,13 +93,7 @@ function App() {
   }, [savedMovies]);
 
   function handleClickExit(){
-    localStorage.removeItem('query');
-    localStorage.removeItem('checkedState');
-    localStorage.removeItem('movies');
-    localStorage.removeItem('savedMovies');
-    localStorage.removeItem('profileData');
-    localStorage.removeItem('filteredMovies');
-    localStorage.removeItem('token');
+    localStorage.clear();
     setLoggedIn(false);
   }
 
@@ -115,15 +113,19 @@ function App() {
   }, [loggedIn, movies]);
 
   function handleUpdateSearch(search, checkedState, path){
+    setPreloader(true);
+    setTimeout(() => {
     if (search !== "") {
       if (path === "/movies") {
         const searchMovies = movies.filter((el) => el.nameRU.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+        setPreloader(false);
         setFilteredMovies(searchMovies);
         localStorage.setItem('filteredMovies', JSON.stringify(searchMovies));
         localStorage.setItem('query', JSON.stringify(search));
         checkQueryShort(checkedState, searchMovies, path);
       }
       else if (path === "/saved-movies") {
+        setPreloader(false);
         const cards = filterSavedCards();
         const searchMovies = cards.filter((el) => el.nameRU.toLowerCase().indexOf(search.toLowerCase()) !== -1);
         setFilteredSavedMovies(searchMovies);
@@ -132,22 +134,24 @@ function App() {
     }
     else {
       if (path === "/movies") {
+        setPreloader(false);
         setFilteredMovies([]);
         localStorage.setItem('filteredMovies', JSON.stringify([]));
         localStorage.setItem('query', JSON.stringify(search));
       }
       else if (path === "/saved-movies") {
       const cards = filterSavedCards();
+        setPreloader(false);
         setFilteredSavedMovies(cards);
         checkQueryShort(checkedState, filteredSavedMovies, path);
       }
-    }
+    }}, 500);
   }
 
   function filterSavedCards () {
     const cards = movies.map(c => {
       const [cards_filtered] = savedMovies.filter(m => 
-        c.id === m.movieId
+        c.id === m.movieId && m.owner === currentUser._id
       )
       return cards_filtered}
     ).filter(card => card !== undefined);
@@ -156,7 +160,7 @@ function App() {
 
   function checkQueryShort(checkedState, searchMovies, path){
     if (checkedState) {
-      const queryShort = searchMovies.filter((el) => el.duration < 40);
+      const queryShort = searchMovies.filter((el) => el.duration < SHORT_FILM_DURATION);
       if (path === "/movies") {
         setFilteredMovies(queryShort);
         localStorage.setItem('filteredMovies', JSON.stringify(queryShort));
@@ -172,7 +176,7 @@ function App() {
   }
 
   function handleSaveCard(card) {
-    const isSaved = savedMovies.some(id => id.movieId === card.id);
+    const isSaved = savedMovies.some(id => id.movieId === card.id && id.owner === currentUser._id);
     const [savedMoviesId] = savedMovies.filter(id => id.movieId === card.id);
 
     if (isSaved === false) {
@@ -251,13 +255,15 @@ function App() {
       api.emailInfo(token).then((res) => {
         if (res){
           setLoggedIn(true);
-          navigate('/movies');
           setEmail(res.email);
         }
       })
       .catch(err => {
-        return console.log(`Неудалось проверить токен: ${err}`)}
-      ); 
+        setLoggedIn(false)
+        console.log(`Неудалось проверить токен: ${err}`)}
+      )
+    } else {
+      setLoggedIn(false);
     }
   } 
 

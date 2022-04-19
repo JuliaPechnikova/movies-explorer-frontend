@@ -5,13 +5,15 @@ import deletesaved from '../../images/delete-save.svg';
 import durationToHours from '../../utils/MinsToHours';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import CurrentUserContext from '../../contexts/CurrentUserContext.js';
 
 function MoviesCard(props) {
+  const currentUser = React.useContext(CurrentUserContext);
   const card = props.card;
 
   const savedMovies = props.savedMovies;
   
-  const isSaved = savedMovies.some(id => id.movieId === card.id);
+  const isSaved = savedMovies.some(id => id.movieId === card.id && id.owner === currentUser._id);
 
   const path = useLocation().pathname;
 

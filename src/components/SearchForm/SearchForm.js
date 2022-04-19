@@ -43,7 +43,7 @@ function SearchForm(props) {
       <form className="search-form__form" onSubmit={handleSubmit}>
         <div className="search-form__container">
           <label htmlFor="search" className="search-form__search"></label>
-          <input type="search" id="search" placeholder="Фильм" value={query} className="search-form__input" onChange={handleSearchChange}/>
+          <input type="search" id="search" placeholder="Фильм" value={query || ""} className="search-form__input" onChange={handleSearchChange}/>
         </div>
         <div className="search-form__container">
           <div className="search-form__container">

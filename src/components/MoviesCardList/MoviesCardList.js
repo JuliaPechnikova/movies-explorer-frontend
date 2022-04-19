@@ -3,6 +3,16 @@ import MoviesCard from '../MoviesCard/MoviesCard.js';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Preloader from '../Preloader/Preloader.js';
+import {
+  MAX_WINDOW_SIZE,
+  SMALL_WINDOW_SIZE,
+  CARDS_MAX_WINDOW,
+  CARDS_MID_WINDOW,
+  CARDS_MIN_WINDOW,
+  MORE_CARDS_MAX_WINDOW,
+  MORE_CARDS_MIN_WINDOW
+} from '../../utils/const';
+
 
 function MoviesCardList(props) {
 
@@ -36,23 +46,23 @@ function MoviesCardList(props) {
   let width = useCurrentWidth();
 
   React.useEffect(() => {
-    if (width > 1270) {
-      setMaxCards(12);
+    if (width > MAX_WINDOW_SIZE) {
+      setMaxCards(CARDS_MAX_WINDOW);
     }
-    else if (width < 1270 && width > 765) {
-      setMaxCards(8)  
+    else if (width < MAX_WINDOW_SIZE && width > SMALL_WINDOW_SIZE) {
+      setMaxCards(CARDS_MID_WINDOW)  
     }  
-    else if (width < 765) {
-      setMaxCards(5)  
+    else if (width < SMALL_WINDOW_SIZE) {
+      setMaxCards(CARDS_MIN_WINDOW)  
     }
   }, [width]);
 
   function handleClickButton () {
-    if (width > 1270) {
-      setMaxCards(maxCards + 3);
+    if (width > MAX_WINDOW_SIZE) {
+      setMaxCards(maxCards + MORE_CARDS_MAX_WINDOW);
     }
-    else if (width < 1270) {
-      setMaxCards(maxCards + 2);
+    else if (width < MAX_WINDOW_SIZE) {
+      setMaxCards(maxCards + MORE_CARDS_MIN_WINDOW);
     }
   }
 
@@ -74,7 +84,7 @@ function MoviesCardList(props) {
             onDeleteCard={props.onDeleteCard}/>) : <></>
         }
       </ul>}
-      {cards.length > 0 && cards.length > maxCards && !props.searchedMoviesError ? 
+      {cards.length > 0 && cards.length > maxCards && !props.searchedMoviesError && !props.preloader ? 
         <button className="movies-card-list__button" onClick={handleClickButton}>Еще</button> : <></>}
     </section>
   ); 
