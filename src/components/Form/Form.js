@@ -1,9 +1,10 @@
 import logo from '../../images/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './Form.css';
 import React from 'react';
 
 function Form(props) {
+  const path = useLocation().pathname;
 
   return (
     <main className="form">
@@ -13,13 +14,14 @@ function Form(props) {
         <div>
           {props.children}
           <label htmlFor="email" className="form__header">E-mail</label>
-          <input type="email" className="form__input" id="login" name="login" required onChange={props.handleChange}/>
+          <input type="email" disabled={props.blockForm} className="form__input" id="login" name="login" required onChange={props.handleChange}/>
           {props.errors.login ? <span className="form__error">{props.errors.login}</span> : <></>}
           <label htmlFor="password" className="form__header">Пароль</label>
-          <input type="password" className={`form__input ${props.registerError? "form__input_error" : "" }`} id="password" name="password" required onChange={props.handleChange}/>
-          {props.registerError ? <span className="form__error">Что-то пошло не так...</span> : <></>}
+          <input type="password" disabled={props.blockForm} className={`form__input ${props.registerError? "form__input_error" : "" }`} id="password" name="password" required onChange={props.handleChange}/>
+          {props.registerError !== "" ? <span className="form__error">{props.registerError}</span> : <></>}
         </div>
-        <button type="submit" className={`form__button ${!props.isValid ? "form__button_disabled" : "form__button_active"}`} disabled={!props.isValid}>{props.button}</button>
+        {path === "/register" ? <button type="submit" className={`form__button ${!props.isValid || (props.errors.name !== (undefined||"") && props.errors.login !== (undefined||"")) ? "form__button_disabled" : "form__button_active"}`} disabled={!props.isValid || (props.errors.name !== (undefined||"") && props.errors.login !== (undefined||""))}>{props.button}</button> :
+        <button type="submit" className={`form__button ${props.blockForm || !props.isValid || props.errors.login !== (undefined||"") ? "form__button_disabled" : "form__button_active"}`} disabled={props.blockForm || !props.isValid || props.errors.login !== (undefined||"")}>{props.button}</button>}
       </form>
       <div className="form__bottom">
         <p className="form__text">{props.register}</p>

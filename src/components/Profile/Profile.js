@@ -20,8 +20,9 @@ function Profile(props) {
   React.useEffect(() => {
     resetForm();
     props.setApiSuccess(false);
-    props.setApiError(false);
+    props.setApiError("");
   }, [resetForm]);
+
 
   return (
     <main className="profile">
@@ -29,17 +30,17 @@ function Profile(props) {
       <form onSubmit={handleSubmit} noValidate>
         <div className="profile__container">
           <label htmlFor="name" className="profile__header">Имя</label>
-          <input className="profile__input" id="name" name="name" minLength="2" maxLength="30" required defaultValue={currentUser.name} onChange={handleChange}/>
+          <input disabled={props.blockForm} className="profile__input" id="name" name="name" minLength="2" maxLength="30" required defaultValue={currentUser.name} onChange={handleChange}/>
         </div>
         {errors.name ? <span className="form__error">{errors.name}</span> : <></>}
         <div className="profile__container">
           <label htmlFor="email" className="profile__header">E-mail</label>
-          <input type="email" className="profile__input" id="email" name="login" required defaultValue={currentUser.email} onChange={handleChange}/>
+          <input disabled={props.blockForm} type="email" className="profile__input" id="email" name="login" required defaultValue={currentUser.email} onChange={handleChange}/>
         </div>
         {errors.login ? <span className="form__error">{errors.login}</span> : <></>}
-        {props.apiError ? <span className="form__error">Что-то пошло не так...</span> : <></>}
+        {props.apiError !== "" ? <span className="form__error">{props.apiError}</span> : <></>}
         {props.apiSuccess ? <span className="profile__success">Данные успешно изменены</span> : <></>}
-        <button type="submit" className={`profile__button ${!isValid ? "profile__button_disabled" : ""}`} disabled={!isValid}>Редактировать</button>
+        <button type="submit" className={`profile__button ${props.blockForm || !isValid || (errors.name !== (undefined||"") && errors.login !== (undefined||"")) ? "profile__button_disabled" : ""}`} disabled={props.blockForm || !isValid  || (errors.name !== (undefined||"") && errors.login !== (undefined||""))}>Редактировать</button>
       </form>
       <Link className="profile__exit" to="/" onClick={props.onClick}>Выйти из аккаунта</Link>
     </main>

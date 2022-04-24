@@ -18,7 +18,7 @@ function Register(props) {
 
   React.useEffect(() => {
     resetForm();
-    props.setApiError(false);
+    props.setApiError("");
   }, [resetForm]);
 
   return (
@@ -33,9 +33,10 @@ function Register(props) {
       errors={errors}
       values={values}
       isValid={isValid}
+      blockForm={props.blockForm}
       registerError={props.registerError}>
       <label htmlFor="name" className="form__header">Имя</label>
-      <input className="form__input" id="name" name="name" minLength="2" maxLength="30" required onChange={handleChange}/>
+      <input className="form__input" id="name" name="name" disabled={props.blockForm} minLength="2" maxLength="30" required onChange={handleChange}/>
       {errors.name ? <span className="form__error">{errors.name}</span> : <></>}
     </Form>
   ); 

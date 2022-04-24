@@ -6,6 +6,7 @@ import Main from '../Main/Main.js';
 import Movies from '../Movies/Movies.js';
 import Profile from '../Profile/Profile.js';
 import Register from '../Register/Register.js';
+import InfoTooltip from '../InfoTooltip/InfoTooltip.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
 import NotFound from '../NotFound/NotFound';
 import React from 'react';
@@ -15,17 +16,38 @@ import api from '../../utils/MainApi.js';
 import CurrentUserContext from '../../contexts/CurrentUserContext.js';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import {SHORT_FILM_DURATION} from '../../utils/const';
+const {
+  internalServerMessage,
+  invalidFilmDataMessage,
+  invalidIdMessage,
+  invalidUpdateDataMessage,
+  invalidCreateDataMessage,
+  filmIdNotFoundMessage,
+  userIdNotFoundMessage,
+  deleteForeignFilmMessage,
+  emailIsUsedMessage,
+  wrongEmailOrPassword
+} = require('../../utils/error-messages');
+
+const {
+  badRequestCode,
+  conflictCode,
+  forbiddenCode,
+  notFoundCode,
+  unathorizedCode
+} = require('../../utils/error-codes');
 
 function App() {
   const navigate = useNavigate();
   const path = useLocation().pathname;
 
+  const [errorTooltipPopup, setErrorTooltipPopup] = React.useState("");
   const [movies, setMovies] = React.useState([]);
   const [filteredMovies, setFilteredMovies] =React.useState([]);
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [filteredSavedMovies, setFilteredSavedMovies] = React.useState([]);
   const [searchedMoviesError, setSearchedMoviesError] = React.useState(false);
-  const [apiError, setApiError] = React.useState(false);
+  const [apiError, setApiError] = React.useState('');
   const [apiSuccess, setApiSuccess] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({name: ''});
   const [email, setEmail] = React.useState("");
@@ -33,6 +55,7 @@ function App() {
   const [preloader, setPreloader] = React.useState(true);
   const [checkedState, setCheckedState] = React.useState(false);
   const [query, setQuery] = React.useState("");
+  const [blockForm, setBlockForm] = React.useState(false);
 
 
   React.useEffect(() => {
@@ -64,10 +87,18 @@ function App() {
     if (loggedIn) {
       api.getUserProfile()
       .then((profileData) => {
+        setErrorTooltipPopup("");
         setCurrentUser(profileData);
         localStorage.setItem('profileData', JSON.stringify(profileData));
       })
-      .catch(err => console.log(`Ошибка инициализации пользователя: ${err}`));
+      .catch(err => {
+        if (err === notFoundCode){
+          setErrorTooltipPopup(userIdNotFoundMessage);
+        }
+        else {
+          setErrorTooltipPopup(internalServerMessage);
+        }
+      });
     }
   }, [loggedIn]);
 
@@ -77,13 +108,14 @@ function App() {
       setPreloader(true);
       moviesApi.getInitialMovies()
       .then((movies) => {
+        setErrorTooltipPopup("");
         setPreloader(false);
         setMovies(movies);
         localStorage.setItem('movies', JSON.stringify(movies));
       })
       .catch(
         err => {console.log(`Ошибка инициализации фильмов: ${err}`);
-        setSearchedMoviesError(true);
+        setErrorTooltipPopup(true);
       });
     }
   }, [loggedIn]);
@@ -95,6 +127,7 @@ function App() {
   function handleClickExit(){
     localStorage.clear();
     setFilteredMovies([]);
+    setFilteredSavedMovies([]);
     setLoggedIn(false);
   }
 
@@ -103,12 +136,13 @@ function App() {
       setPreloader(true);
       api.getSavedCards()
       .then((movies) => {
+        setErrorTooltipPopup("");
         setPreloader(false);
         setSavedMovies(movies);
         localStorage.setItem('savedMovies', JSON.stringify(movies));
       })
-      .catch(
-        err => {console.log(`Ошибка инициализации сохраненных фильмов: ${err}`);
+      .catch(() => {
+        setErrorTooltipPopup(internalServerMessage);
       });
     }
   }, [loggedIn, movies]);
@@ -183,49 +217,94 @@ function App() {
     if (isSaved === false) {
       api.createMoviesCard(card, !isSaved)
       .then((newMovie) => {
+        setErrorTooltipPopup("");
         setSavedMovies([...savedMovies, newMovie]);
         localStorage.setItem('savedMovies', JSON.stringify([...savedMovies, newMovie]));
       })
-      .catch(err => console.log(`Ошибка добавления карточки: ${err}`));
+      .catch(err => {
+        if (err === badRequestCode){
+          setErrorTooltipPopup(invalidFilmDataMessage);
+        }
+        else {
+          setErrorTooltipPopup(internalServerMessage);
+        }
+      });
     }
     else {
       api.deleteMoviesCard(savedMoviesId._id, isSaved)
       .then(() => {
+        setErrorTooltipPopup("");
         setSavedMovies(savedMovies.filter(id => id.movieId !== card.id));
         localStorage.setItem('savedMovies', JSON.stringify(savedMovies.filter(id => id.movieId !== card.id)));
       })
-      .catch(err => console.log(`Ошибка удаления карточки: ${err}`));
+      .catch(err => {
+        if (err === badRequestCode){
+          setErrorTooltipPopup(invalidIdMessage);
+        } 
+        else if (err === notFoundCode) {
+          setErrorTooltipPopup(filmIdNotFoundMessage);
+        }
+        else if (err === forbiddenCode) {
+          setErrorTooltipPopup(deleteForeignFilmMessage);
+        }
+        else {
+          setErrorTooltipPopup(internalServerMessage);
+        }
+      });
     }
   }
 
   function handleDeleteCard(card){
     api.deleteMoviesCard(card._id)
     .then(() => {
+      setErrorTooltipPopup("");
       setSavedMovies(savedMovies.filter(c => c._id !== card._id));
       localStorage.setItem('savedMovies', JSON.stringify(savedMovies.filter(c => c._id !== card._id)));
     })
-    .catch(err => console.log(`Ошибка удаления карточки: ${err}`));
-  }
-
-  function handleUpdateUserRegister(userAuth){
-    api.register(userAuth)
-    .then((res) => {
-      if(res){
-        handleUpdateUserLogin(userAuth);
-      } else {
-        console.log("Что-то пошло не так!");
-      }
-    })
     .catch(err => {
-      setApiError(true);
-      return console.log(`Ошибка регистрации: ${err}`);
+      if (err === badRequestCode){
+        setErrorTooltipPopup(invalidIdMessage);
+      } 
+      else if (err === notFoundCode) {
+        setErrorTooltipPopup(filmIdNotFoundMessage);
+      }
+      else if (err === forbiddenCode) {
+        setErrorTooltipPopup(deleteForeignFilmMessage);
+      }
+      else {
+        setErrorTooltipPopup(internalServerMessage);
+      }
     });
   }
 
+  function handleUpdateUserRegister(userAuth){
+    setBlockForm(true);
+    api.register(userAuth)
+    .then((res) => {
+      if(res){
+        setApiError("");
+        handleUpdateUserLogin(userAuth);
+      }
+    })
+    .catch(err => {
+      if (err === conflictCode){
+        setApiError(emailIsUsedMessage);
+      } else if (err === badRequestCode) {
+        setApiError(invalidCreateDataMessage);
+      }
+      else {
+        setApiError(internalServerMessage);
+      }
+    })
+    .finally(() => setBlockForm(false));
+  }
+
   function handleUpdateUserLogin(userAuth){
+    setBlockForm(true);
     api.auth(userAuth)
     .then((authData) => {
-      if (authData.token){
+      if (authData.token) {
+        setApiError("");
         localStorage.setItem('token', authData.token);
         setLoggedIn(true);
         setEmail(userAuth.login);
@@ -233,21 +312,37 @@ function App() {
       }
     })
     .catch(err => {
-      setApiError(true);
-      return console.log(`Ошибка авторизации: ${err}`);
-    });
+      if (err === unathorizedCode){
+        setApiError(wrongEmailOrPassword);
+      }
+      else {
+        setApiError(internalServerMessage);
+      }
+    })
+    .finally(() => setBlockForm(false));
   }
 
   function handleUpdateUserProfile(userData){
+    setBlockForm(true);
     api.setUserProfile(userData)
     .then((userData) => {
+      setApiError("");
       setCurrentUser(userData);
       setApiSuccess(true);
     })
     .catch(err => {
-      setApiError(true);
-      console.log(`Ошибка изменения параметров профиля: ${err}`)
-    });
+      if (err === conflictCode){
+        setApiError(emailIsUsedMessage);
+      } else if (err === badRequestCode) {
+        setApiError(invalidUpdateDataMessage);
+      } else if (err === notFoundCode) {
+        setApiError(userIdNotFoundMessage);
+      }
+      else {
+        setApiError(internalServerMessage);
+      }
+    })
+    .finally(() => setBlockForm(false));
   }
 
   function tokenCheck() {
@@ -259,14 +354,18 @@ function App() {
           setEmail(res.email);
         }
       })
-      .catch(err => {
+      .catch(() => {
         setLoggedIn(false)
-        console.log(`Неудалось проверить токен: ${err}`)}
-      )
+      })
     } else {
       setLoggedIn(false);
     }
   } 
+
+  const closeAllPopups = () => {
+    setErrorTooltipPopup("");
+  }
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -331,20 +430,30 @@ function App() {
                   setApiError={setApiError}
                   setApiSuccess={setApiSuccess}
                   onUpdateUserProfile={handleUpdateUserProfile}
+                  blockForm={blockForm}
                 />
               </>
             } />
             <Route path="/signup" element = {
-              <Register onUpdateUserAuth={handleUpdateUserRegister} registerError={apiError} setApiError={setApiError}/>
+              <Register
+              onUpdateUserAuth={handleUpdateUserRegister}
+              registerError={apiError}
+              setApiError={setApiError}
+              blockForm={blockForm}/>
             } />
             <Route path="/signin" element = {
-              <Login onUpdateUserAuth={handleUpdateUserLogin} registerError={apiError} setApiError={setApiError}/>
+              <Login
+              onUpdateUserAuth={handleUpdateUserLogin}
+              registerError={apiError}
+              setApiError={setApiError}
+              blockForm={blockForm}/>
             } />
             <Route exact path="*" element = {
               <NotFound/>
             } />
           </Routes>
       </div>
+      <InfoTooltip isOpen={errorTooltipPopup} onClose={closeAllPopups}/>
     </CurrentUserContext.Provider>
   );
 }

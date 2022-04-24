@@ -8,6 +8,7 @@ export function useFormWithValidation() {
   const [errors, setErrors] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
   const currentUser = React.useContext(CurrentUserContext);
+  
 
   const handleChange = (event) => {
     const target = event.target;
@@ -21,6 +22,7 @@ export function useFormWithValidation() {
         setErrors({...errors, [name]: 'E-mail неверный' })}
       else if (value === currentUser.email){
         setIsValid(false);
+        setErrors({...errors, [name]: '' });
       }
       else {
         setIsValid(target.closest('form').checkValidity());
@@ -34,6 +36,7 @@ export function useFormWithValidation() {
         setErrors({...errors, [name]: 'Поле name должно содержать только латиницу, кириллицу, пробел или дефис' })}
       else if (value === currentUser.name){
         setIsValid(false);
+        setErrors({...errors, [name]: '' });
       }
       else {
         setIsValid(target.closest('form').checkValidity());

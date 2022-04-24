@@ -18,7 +18,7 @@ function Login(props) {
 
   React.useEffect(() => {
     resetForm();
-    props.setApiError(false);
+    props.setApiError("");
   }, [resetForm]);
 
   return (
@@ -34,6 +34,7 @@ function Login(props) {
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       registerError={props.registerError}
+      blockForm={props.blockForm}
     />
   ); 
 }
