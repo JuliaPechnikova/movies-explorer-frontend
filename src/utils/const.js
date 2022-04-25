@@ -1,119 +1,21 @@
-const temp_all_movies = [
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: true,
-    _id: 1
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: false,
-    _id: 2
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: true,
-    _id: 3
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: true,
-    _id: 4
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: true,
-    _id: 5
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: false,
-    _id: 6
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: false,
-    _id: 7
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: false,
-    _id: 8
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: false,
-    _id: 9
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: false,
-    _id: 10
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: false,
-    _id: 11
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: false,
-    _id: 12
-  }
-]
+const SHORT_FILM_DURATION = 40;
 
-const temp_saved_movies = [
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: true,
-    _id: 13
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: true,
-    _id: 14
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: true,
-    _id: 15
-  },
-  {
-    name: "33 слова о дизайне",
-    link: "https://cdn.pixabay.com/photo/2013/11/28/10/02/camera-219958__480.jpg",
-    time: "1ч 47м",
-    saved: true,
-    _id: 16
-  }
-]
+const MAX_WINDOW_SIZE = 1270;
+const SMALL_WINDOW_SIZE = 765;
 
-export {temp_all_movies, temp_saved_movies}
+const CARDS_MAX_WINDOW = 12;
+const CARDS_MID_WINDOW = 8;
+const CARDS_MIN_WINDOW = 5;
+const MORE_CARDS_MAX_WINDOW = 3;
+const MORE_CARDS_MIN_WINDOW = 2;
+
+export {
+  SHORT_FILM_DURATION,
+  MAX_WINDOW_SIZE,
+  SMALL_WINDOW_SIZE,
+  CARDS_MAX_WINDOW,
+  CARDS_MID_WINDOW,
+  CARDS_MIN_WINDOW,
+  MORE_CARDS_MAX_WINDOW,
+  MORE_CARDS_MIN_WINDOW
+};

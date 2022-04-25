@@ -1,22 +1,48 @@
 import './Profile.css';
 import { Link } from 'react-router-dom';
+import CurrentUserContext from '../../contexts/CurrentUserContext.js';
+import React from 'react';
+import { useFormWithValidation } from '../../utils/Validation.js';
 
-function Profile() {
+function Profile(props) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const {values, handleChange, errors, isValid, resetForm} = useFormWithValidation();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    props.onUpdateUserProfile({
+      name: values.name || currentUser.name,
+      login: values.login || currentUser.email,
+    });
+  }
+
+  React.useEffect(() => {
+    resetForm();
+    props.setApiSuccess(false);
+    props.setApiError("");
+  }, [resetForm]);
+
+
   return (
     <main className="profile">
-      <h1 className="profile__hello">Привет, Виталий!</h1>
-      <form>
+      <h1 className="profile__hello">{`Привет, ${currentUser.name}!`}</h1>
+      <form onSubmit={handleSubmit} noValidate>
         <div className="profile__container">
           <label htmlFor="name" className="profile__header">Имя</label>
-          <input defaultValue="Виталий" className="profile__input" id="name" name="name" minLength="2" maxLength="30" required/>
+          <input disabled={props.blockForm} className="profile__input" id="name" name="name" minLength="2" maxLength="30" required defaultValue={currentUser.name} onChange={handleChange}/>
         </div>
+        {errors.name ? <span className="form__error">{errors.name}</span> : <></>}
         <div className="profile__container">
           <label htmlFor="email" className="profile__header">E-mail</label>
-          <input type="email" defaultValue="pochta@yandex.ru" className="profile__input" id="email" name="email" required/>
+          <input disabled={props.blockForm} type="email" className="profile__input" id="email" name="login" required defaultValue={currentUser.email} onChange={handleChange}/>
         </div>
-        <button type="submit" className="profile__button">Редактировать</button>
+        {errors.login ? <span className="form__error">{errors.login}</span> : <></>}
+        {props.apiError !== "" ? <span className="form__error">{props.apiError}</span> : <></>}
+        {props.apiSuccess ? <span className="profile__success">Данные успешно изменены</span> : <></>}
+        <button type="submit" className={`profile__button ${props.blockForm || !isValid || (errors.name !== (undefined||"") && errors.login !== (undefined||"")) ? "profile__button_disabled" : ""}`} disabled={props.blockForm || !isValid  || (errors.name !== (undefined||"") && errors.login !== (undefined||""))}>Редактировать</button>
       </form>
-      <Link className="profile__exit" to="/">Выйти из аккаунта</Link>
+      <Link className="profile__exit" to="/" onClick={props.onClick}>Выйти из аккаунта</Link>
     </main>
   ); 
 }

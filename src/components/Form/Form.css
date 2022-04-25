@@ -95,14 +95,16 @@
   display: block;
 }
 
-.form__error-input {
+.form__input_error {
   color: #EE3465;
 }
 
+
+
 .form__button {
+  background: #4285F4;
   padding: 0;
   border: 0;
-  background: #4285F4;
   color: white;
   width: 396px;
   height: 45px;
@@ -113,13 +115,17 @@
   cursor: pointer;
 }
 
+.form__button_disabled {
+  background: #69717e;
+}
+
 @media screen and (max-width: 490px) {
   .form__button {
     width: 260px;
   }
 }
 
-.form__button:hover {
+.form__button_active:hover {
   background: rgba(66, 133, 244, 0.65);
   transition: 0.25s;
 }

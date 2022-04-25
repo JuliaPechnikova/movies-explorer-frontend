@@ -1,20 +1,49 @@
 import './SearchForm.css';
 import findicon from '../../images/search-find.svg';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
-function SearchForm() {
 
-  const [isChecked, setChecked] = React.useState("checked");
+function SearchForm(props) {
 
-  const handleChecked = () => {
-    isChecked === "checked" ? setChecked("") : setChecked("checked");
+  const path = useLocation().pathname;
+  const [query, setQuery] = React.useState(props.query);
+  const [checkedState, setCheckedState] = React.useState(props.checkedState);
+
+  function handleSubmit(e) {
+    // Запрещаем браузеру переходить по адресу формы
+    e.preventDefault();
+    // Передаём значения управляемых компонентов во внешний обработчик
+    if (query === "") {
+      props.setQueryError(true);
+      props.onUpdateSearch(query, checkedState, path);
+    }
+    else {
+      props.setQueryError(false);
+      props.onUpdateSearch(query, checkedState, path);
+    }
   }
+
+  function handleSearchChange(e) {
+    setQuery(e.target.value);
+  }
+
+  function handleSearchChangeShort(e) {
+    if (!checkedState) {
+      setCheckedState(true);
+    }
+    else {
+      setCheckedState(false);
+    }
+  }
+
+
   return (
     <section className="search-form">
-      <form className="search-form__form">
+      <form className="search-form__form" onSubmit={handleSubmit}>
         <div className="search-form__container">
           <label htmlFor="search" className="search-form__search"></label>
-          <input type="search" id="search" placeholder="Фильм" className="search-form__input"/>
+          <input type="search" id="search" placeholder="Фильм" value={query || ""} className="search-form__input" onChange={handleSearchChange}/>
         </div>
         <div className="search-form__container">
           <div className="search-form__container">
@@ -22,9 +51,9 @@ function SearchForm() {
             <span className="search-form__stroke"></span>
           </div>
           <div className="search-form__tumb-container">
-            <label class="search-form__tumb">
-              <input type="checkbox" id="tumb" class="search-form__tumb-inner" checked={isChecked} onClick={handleChecked}/>
-              <span class="search-form__tumb-slider"></span>
+            <label className="search-form__tumb">
+              <input type="checkbox" id="tumb" className="search-form__tumb-inner" checked={checkedState} onChange={handleSearchChangeShort}/>
+              <span className="search-form__tumb-slider"></span>
             </label>
             <label htmlFor="tumb" className="search-form__tumb-description">Короткометражки</label>
           </div>
